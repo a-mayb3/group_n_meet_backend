@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-actix = "0.13.5"
 actix-web = "4.12.1"
 chrono = { version = "0.4.43", features = ["serde"] }
 dotenv = "0.15.0"
