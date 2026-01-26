@@ -1,1 +1,5 @@
+.env
+
+postgres-data/
+
 docs/**/*.bkp
