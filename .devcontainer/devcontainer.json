@@ -18,7 +18,10 @@
         "rust-lang.rust-analyzer",
         "tamasfe.even-better-toml",
         "vadimcn.vscode-lldb",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "docker.docker",
+        "redhat.vscode-yaml",
+        "ms-vscode-remote.remote-containers"
       ],
       "settings": {
         "rust-analyzer.cargo.buildScripts.enable": true,
@@ -27,5 +30,19 @@
     }
   },
   "postCreateCommand": "cargo fetch",
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-bash:0": {},
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-curl:0": {},
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-docker-outside-of-docker:0": {
+      "installDockerCompose": true
+    },
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-gh-cli:0": {},
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-git:0": {},
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-openssh:0": {},
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-pgsql-client:0": {
+      "version": "17"
+    },
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-sudo:0": {}
+  }
 }
