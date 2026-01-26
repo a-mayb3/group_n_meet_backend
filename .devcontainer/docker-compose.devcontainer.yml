@@ -1,0 +1,16 @@
+services:
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/rust:1-1-bookworm
+    init: true
+    volumes:
+      - ..:/workspaces/${localWorkspaceFolderBasename}:cached
+    environment:
+      # These mirror defaults used by the app; adjust as needed=
+      POSTGRES_PASSWORD: password
+    depends_on:
+      - postgres
+
+  # Override env for postgres so it doesn't rely on host .env
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: password
