@@ -1,6 +1,6 @@
 services:
   devcontainer:
-    image: mcr.microsoft.com/devcontainers/rust:1-1-bookworm
+    image: mcr.microsoft.com/devcontainers/rust:1-alpine
     init: true
     volumes:
       - ..:/workspaces/${localWorkspaceFolderBasename}:cached
