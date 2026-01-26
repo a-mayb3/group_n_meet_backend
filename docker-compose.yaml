@@ -10,3 +10,15 @@ services:
     volumes:
       - ./postgresql/.postgres-data:/var/lib/postgresql/data
       - ./postgresql/postgresql.conf:/etc/postgresql/postgresql.conf
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    depends_on:
+      - postgres
