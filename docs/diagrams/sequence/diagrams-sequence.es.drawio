@@ -1,6 +1,12 @@
+<<<<<<< Updated upstream
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.1.2 Chrome/138.0.7204.243 Electron/37.4.0 Safari/537.36" version="28.1.2">
   <diagram name="Page-1" id="q7XYr9pxCuQ46hnlDsow">
     <mxGraphModel dx="1412" dy="875" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+=======
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.8.0 Safari/537.36" version="29.3.0">
+  <diagram name="Page-1" id="q7XYr9pxCuQ46hnlDsow">
+    <mxGraphModel dx="706" dy="569" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+>>>>>>> Stashed changes
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -194,18 +200,65 @@
         <mxCell id="hzIyq8BhhGhRO8JhsYXX-55" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="hzIyq8BhhGhRO8JhsYXX-54" vertex="1">
           <mxGeometry x="5" y="50" width="10" height="80" as="geometry" />
         </mxCell>
+<<<<<<< Updated upstream
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-1" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" vertex="1" parent="1">
           <mxGeometry x="880" y="220" width="20" height="290" as="geometry" />
+=======
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-11" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" value="" vertex="1">
+          <mxGeometry height="160" width="20" x="870" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-12" parent="TsH2gSiLQRZw1kxQl4Oa-11" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="5" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-31" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" value="" vertex="1">
+          <mxGeometry height="160" width="20" x="870" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-32" parent="TsH2gSiLQRZw1kxQl4Oa-31" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="5" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-1" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" value="" vertex="1">
+          <mxGeometry height="160" width="20" x="60" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-2" parent="TsH2gSiLQRZw1kxQl4Oa-1" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="5" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hzIyq8BhhGhRO8JhsYXX-56" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value=":API" vertex="1">
+          <mxGeometry height="160" width="100" x="1050" y="40" as="geometry" />
+>>>>>>> Stashed changes
         </mxCell>
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-2" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="sDTCiQe-Ik8pmlZVpdML-1">
           <mxGeometry x="5" y="40" width="10" height="220" as="geometry" />
         </mxCell>
+<<<<<<< Updated upstream
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-17" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" vertex="1" parent="1">
           <mxGeometry x="1740" y="40" width="20" height="160" as="geometry" />
+=======
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-13" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value=":API" vertex="1">
+          <mxGeometry height="160" width="100" x="1080" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-14" parent="TsH2gSiLQRZw1kxQl4Oa-13" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-33" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value=":API" vertex="1">
+          <mxGeometry height="160" width="100" x="1080" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-34" parent="TsH2gSiLQRZw1kxQl4Oa-33" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value=":API" vertex="1">
+          <mxGeometry height="160" width="100" x="230" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-4" parent="TsH2gSiLQRZw1kxQl4Oa-3" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hzIyq8BhhGhRO8JhsYXX-58" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value=":Sistema" vertex="1">
+          <mxGeometry height="160" width="100" x="1290" y="40" as="geometry" />
+>>>>>>> Stashed changes
         </mxCell>
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-18" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="sDTCiQe-Ik8pmlZVpdML-17">
           <mxGeometry x="5" y="40" width="10" height="110" as="geometry" />
         </mxCell>
+<<<<<<< Updated upstream
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-34" value="" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" vertex="1" parent="1">
           <mxGeometry x="1740" y="230" width="20" height="160" as="geometry" />
         </mxCell>
@@ -303,10 +356,32 @@
           <mxGeometry x="40" y="60" width="10" height="110" as="geometry" />
         </mxCell>
         <mxCell id="hzIyq8BhhGhRO8JhsYXX-60" value="/events/search?q=&quot;&quot;" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" source="hzIyq8BhhGhRO8JhsYXX-55" target="hzIyq8BhhGhRO8JhsYXX-57" edge="1">
+=======
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-15" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value=":Sistema" vertex="1">
+          <mxGeometry height="160" width="100" x="1460" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-16" parent="TsH2gSiLQRZw1kxQl4Oa-15" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="70" width="10" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-35" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value=":Sistema" vertex="1">
+          <mxGeometry height="160" width="100" x="1460" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-36" parent="TsH2gSiLQRZw1kxQl4Oa-35" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="70" width="10" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-5" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value=":Sistema" vertex="1">
+          <mxGeometry height="160" width="100" x="470" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-6" parent="TsH2gSiLQRZw1kxQl4Oa-5" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="70" width="10" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hzIyq8BhhGhRO8JhsYXX-60" edge="1" parent="1" source="hzIyq8BhhGhRO8JhsYXX-55" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" target="hzIyq8BhhGhRO8JhsYXX-57" value="/events/search?q=&quot;&quot;">
+>>>>>>> Stashed changes
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="970" y="95" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
+<<<<<<< Updated upstream
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-7" value="/events/search?q=&quot;&quot;" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" source="sDTCiQe-Ik8pmlZVpdML-2" target="sDTCiQe-Ik8pmlZVpdML-4" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="970" y="275" as="sourcePoint" />
@@ -333,10 +408,29 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="hzIyq8BhhGhRO8JhsYXX-61" value="filter_events(query:str)" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" source="hzIyq8BhhGhRO8JhsYXX-56" target="hzIyq8BhhGhRO8JhsYXX-59" edge="1">
+=======
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-17" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-12" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" target="TsH2gSiLQRZw1kxQl4Oa-14" value="POST /groups/">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="960" y="305" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-37" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-32" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" target="TsH2gSiLQRZw1kxQl4Oa-34" value="GET me/groups/">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="960" y="505" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-7" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-2" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" target="TsH2gSiLQRZw1kxQl4Oa-4" value="POST /me/rsvps/{event_id}">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="805" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hzIyq8BhhGhRO8JhsYXX-61" edge="1" parent="1" source="hzIyq8BhhGhRO8JhsYXX-56" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" target="hzIyq8BhhGhRO8JhsYXX-59" value="filter_events(query:str)">
+>>>>>>> Stashed changes
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1160" y="105" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
+<<<<<<< Updated upstream
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-8" value="filter_events(query:str)" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" source="sDTCiQe-Ik8pmlZVpdML-3" target="sDTCiQe-Ik8pmlZVpdML-6" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1160" y="285" as="sourcePoint" />
@@ -364,11 +458,31 @@
         </mxCell>
         <mxCell id="hzIyq8BhhGhRO8JhsYXX-62" value="listaEventos[]" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" parent="1" source="hzIyq8BhhGhRO8JhsYXX-59" target="hzIyq8BhhGhRO8JhsYXX-57" edge="1">
           <mxGeometry x="0.1043" y="-5" relative="1" as="geometry">
+=======
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-18" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-13" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" target="TsH2gSiLQRZw1kxQl4Oa-16" value="create_organizer_group(user_id: int, organizer_group: OrganizerGroup)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="315" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-38" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-33" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" target="TsH2gSiLQRZw1kxQl4Oa-36" value="get_users_groups(user_id: int)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="515" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-8" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-3" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" target="TsH2gSiLQRZw1kxQl4Oa-6" value="add_rsvp(user_id: int, event_id: int)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="815" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hzIyq8BhhGhRO8JhsYXX-62" edge="1" parent="1" source="hzIyq8BhhGhRO8JhsYXX-59" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" target="hzIyq8BhhGhRO8JhsYXX-57" value="listaEventos[]">
+          <mxGeometry relative="1" x="0.1043" y="-5" as="geometry">
+>>>>>>> Stashed changes
             <mxPoint as="offset" />
             <mxPoint x="1110" y="190" as="sourcePoint" />
             <mxPoint x="1030" y="190" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+<<<<<<< Updated upstream
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-9" value="listaEventos[]" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" edge="1" source="sDTCiQe-Ik8pmlZVpdML-6" target="sDTCiQe-Ik8pmlZVpdML-4" parent="1">
           <mxGeometry x="0.1043" y="-5" relative="1" as="geometry">
             <mxPoint as="offset" />
@@ -406,11 +520,37 @@
         </mxCell>
         <mxCell id="hzIyq8BhhGhRO8JhsYXX-63" value="{events: []}" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" parent="1" source="hzIyq8BhhGhRO8JhsYXX-57" target="hzIyq8BhhGhRO8JhsYXX-55" edge="1">
           <mxGeometry x="0.1" y="-5" relative="1" as="geometry">
+=======
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-19" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-16" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" target="TsH2gSiLQRZw1kxQl4Oa-14" value="isGroupCreationSuccessful">
+          <mxGeometry relative="1" x="0.1027" y="-5" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1100" y="400" as="sourcePoint" />
+            <mxPoint x="1020" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-39" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-36" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" target="TsH2gSiLQRZw1kxQl4Oa-34" value="organizer_groups[]">
+          <mxGeometry relative="1" x="0.1027" y="-5" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1100" y="600" as="sourcePoint" />
+            <mxPoint x="1020" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-9" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-6" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" target="TsH2gSiLQRZw1kxQl4Oa-4" value="isReservationSuccessful">
+          <mxGeometry relative="1" x="0.1043" y="-5" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="290" y="900" as="sourcePoint" />
+            <mxPoint x="210" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hzIyq8BhhGhRO8JhsYXX-63" edge="1" parent="1" source="hzIyq8BhhGhRO8JhsYXX-57" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" target="hzIyq8BhhGhRO8JhsYXX-55" value="{events: []}">
+          <mxGeometry relative="1" x="0.1" y="-5" as="geometry">
+>>>>>>> Stashed changes
             <mxPoint as="offset" />
             <mxPoint x="1240" y="160" as="sourcePoint" />
             <mxPoint x="1040" y="160" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+<<<<<<< Updated upstream
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-10" value="{events: []}" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;" edge="1" source="sDTCiQe-Ik8pmlZVpdML-4" target="sDTCiQe-Ik8pmlZVpdML-1" parent="1">
           <mxGeometry x="0.1" y="-5" relative="1" as="geometry">
             <mxPoint as="offset" />
@@ -464,6 +604,27 @@
         <mxCell id="sDTCiQe-Ik8pmlZVpdML-16" value="isRsvpSuccessful" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" source="sDTCiQe-Ik8pmlZVpdML-14" parent="1" target="sDTCiQe-Ik8pmlZVpdML-3">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1159.666666666667" y="455" as="targetPoint" />
+=======
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-20" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-14" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" target="TsH2gSiLQRZw1kxQl4Oa-12" value="isGroupCreationSuccessful">
+          <mxGeometry relative="1" x="0.1" y="-5" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1230" y="370" as="sourcePoint" />
+            <mxPoint x="1030" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-40" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-34" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" target="TsH2gSiLQRZw1kxQl4Oa-32" value="organizer_groups: []">
+          <mxGeometry relative="1" x="0.0979" y="-5" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1230" y="570" as="sourcePoint" />
+            <mxPoint x="1030" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TsH2gSiLQRZw1kxQl4Oa-10" edge="1" parent="1" source="TsH2gSiLQRZw1kxQl4Oa-4" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;exitPerimeter=0;entryX=1;entryY=1;entryDx=0;entryDy=-5;entryPerimeter=0;" target="TsH2gSiLQRZw1kxQl4Oa-2" value="isReservationSuccessful">
+          <mxGeometry relative="1" x="0.1" y="-5" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="420" y="870" as="sourcePoint" />
+            <mxPoint x="220" y="870" as="targetPoint" />
+>>>>>>> Stashed changes
           </mxGeometry>
         </mxCell>
       </root>
