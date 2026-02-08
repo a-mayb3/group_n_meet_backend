@@ -16,7 +16,7 @@ services:
       context: ./backend
       dockerfile: dockerfile
     ports:
-      - "8080:8080"
+      - "0.0.0.0:8000:8000"
     environment:
       - POSTGRES_USER="group_n_meet"
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

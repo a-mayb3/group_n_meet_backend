@@ -1,6 +1,14 @@
-FROM python:alpine
+FROM python:3.11-alpine
+
+
 WORKDIR /app
 COPY . /app
+
+## Installing build dependencies
+RUN apk update && \
+    apk add --no-cache build-base gcc musl-dev
+
 RUN pip install --no-cache-dir -r requirements.txt
+
 EXPOSE 8000
-CMD ["python", "main.py"]
+CMD ["uvicorn", "main:app"]
