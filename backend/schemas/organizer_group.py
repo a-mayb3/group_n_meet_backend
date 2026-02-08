@@ -15,7 +15,7 @@ organizer_group_members = Table(
     Column("role", GroupMemberRole, default=GroupMemberRole.MEMBER, nullable=False)
 )
 
-class OrganizerGroup(Base):
+class OrganizerGroupSchema(Base):
     __tablename__ = "organizer_groups"
 
     id = Column(postgresql.UUID(as_uuid=True), primary_key=True, index=True)
@@ -24,5 +24,5 @@ class OrganizerGroup(Base):
 
     created_at = Column(DateTime, index=True)
 
-    events = relationship("Event", back_populates="organizer_group")
+    events = relationship("EventSchema", back_populates="organizer_group")
 

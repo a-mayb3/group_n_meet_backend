@@ -7,7 +7,7 @@ class UserType(str, Enum):
     REGULAR = "regular"
     ADMIN = "admin"
 
-class User(Base):
+class UserSchema(Base):
     __tablename__ = "users"
 
     id = Column(postgresql.UUID(as_uuid=True), primary_key=True, index=True)
