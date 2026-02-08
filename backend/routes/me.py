@@ -6,7 +6,7 @@ from database import get_db
 
 from pyargon2 import hash
 
-from schemas.user import User
+from schemas.user import UserSchema
 
 class UserAuth(BaseModel):
     email_address: str
@@ -30,7 +30,7 @@ def read_my_organizer_groups(db: Session = Depends(get_db)):
 @router.get("/login",status_code=401)
 def login_user(auth: UserAuth, db: Session = Depends(get_db)):
 
-    query =  db.query(User).filter(User.email == auth.email_address)
+    query =  db.query(UserSchema).filter(UserSchema.email == auth.email_address)
     user = query.first()
 
     if not user:
