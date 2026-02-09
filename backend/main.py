@@ -28,6 +28,10 @@ app = FastAPI(
 app.include_router(events.router)
 app.include_router(me.router)
 
+@app.head("/health")
+async def health():
+    return {"status": "ok"}
+
 ## In case this file is run directly...
 def main():
     import uvicorn
