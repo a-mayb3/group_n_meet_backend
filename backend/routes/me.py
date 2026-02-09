@@ -7,10 +7,7 @@ from database import get_db
 from pyargon2 import hash
 
 from schemas.user import UserSchema
-
-class UserAuth(BaseModel):
-    email_address: str
-    password: str
+from models.users import UserBase, UserAuth
 
 router = APIRouter(
     prefix="/me",
