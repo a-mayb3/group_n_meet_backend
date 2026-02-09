@@ -5,6 +5,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
+from database import get_db, init_db
+
 from routes import events, me
 
 @asynccontextmanager
@@ -20,25 +22,35 @@ async def lifespan(app: FastAPI):
     if "SESSION_SECRET_KEY" not in environ:
         raise EnvironmentError("SESSION_SECRET_KEY environment variable not set")
 
-    yield
+    init_db()
 
+    yield
+    pass
 
 app = FastAPI(
     lifespan=lifespan
     ## TODO: Add exception handlers
     ## TODO: Add logging middleware
+    
+    license_info={"name"="AGPL-3.0-or-later", "url"="https://www.gnu.org/licenses/agpl-3.0.html"},
+    
     )
 
+ ## Adding middlewares
 app.add_middleware( 
     CORSMiddleware, 
     allow_origins=["*"], 
     allow_credentials=True, 
     allow_methods=["*"], 
     allow_headers=["*"],
-    )
+)
 
-app.add_middleware(SessionMiddleware, secret_key=environ.get("SESSION_SECRET_KEY", "default_secret_key"))
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=environ.get("SESSION_SECRET_KEY", "default_secret_key")
+)
 
+## Including routes
 app.include_router(events.router)
 app.include_router(me.router)
 
