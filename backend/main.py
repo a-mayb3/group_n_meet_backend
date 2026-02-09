@@ -28,11 +28,11 @@ async def lifespan(app: FastAPI):
     pass
 
 app = FastAPI(
-    lifespan=lifespan
+    lifespan=lifespan,
     ## TODO: Add exception handlers
     ## TODO: Add logging middleware
     
-    license_info={"name"="AGPL-3.0-or-later", "url"="https://www.gnu.org/licenses/agpl-3.0.html"},
+    license_info={"name": "AGPL-3.0-or-later", "url":"https://www.gnu.org/licenses/agpl-3.0.html"},
     
     )
 
