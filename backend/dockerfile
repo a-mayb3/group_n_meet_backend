@@ -1,14 +1,17 @@
-FROM python:3.11-alpine
+FROM python:alpine
 
-
-WORKDIR /app
-COPY . /app
+WORKDIR /usr/src/group_n_meet_backend
+COPY .  /usr/src/group_n_meet_backend
 
 ## Installing build dependencies
 RUN apk update && \
     apk add --no-cache build-base gcc musl-dev
 
+## Installing and building Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000
+
 CMD ["uvicorn", "main:app"]
+
+## TODO: Add health check
