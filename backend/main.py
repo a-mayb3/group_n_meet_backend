@@ -2,6 +2,9 @@ from contextlib import asynccontextmanager
 from os import environ
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
+
 from routes import events, me
 
 @asynccontextmanager
@@ -14,6 +17,8 @@ async def lifespan(app: FastAPI):
         raise EnvironmentError("POSTGRES_DB environment variable not set")
     if "POSTGRES_PASSWORD" not in environ:
         raise EnvironmentError("POSTGRES_PASSWORD environment variable not set")
+    if "SESSION_SECRET_KEY" not in environ:
+        raise EnvironmentError("SESSION_SECRET_KEY environment variable not set")
 
     yield
 
@@ -21,9 +26,18 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     lifespan=lifespan
     ## TODO: Add exception handlers
-    ## TODO: Add CORS middleware
     ## TODO: Add logging middleware
     )
+
+app.add_middleware( 
+    CORSMiddleware, 
+    allow_origins=["*"], 
+    allow_credentials=True, 
+    allow_methods=["*"], 
+    allow_headers=["*"],
+    )
+
+app.add_middleware(SessionMiddleware, secret_key=environ.get("SESSION_SECRET_KEY", "default_secret_key"))
 
 app.include_router(events.router)
 app.include_router(me.router)
