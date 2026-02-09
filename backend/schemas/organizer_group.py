@@ -4,15 +4,17 @@ from sqlalchemy.orm import relationship
 from database import Base
 
 class GroupMemberRole(str, Enum):
-    MEMBER = "member"
-    ADMIN = "admin"
+    MEMBER = "MEMBER"
+    ADMIN = "ADMIN"
 
 organizer_group_members = Table(
     "organizer_group_members",
     Base.metadata,
     Column("organizer_group_id", postgresql.UUID(as_uuid=True), ForeignKey("organizer_groups.id"), primary_key=True),
     Column("user_id", postgresql.UUID(as_uuid=True), ForeignKey("users.id"), primary_key=True),
-    Column("role", GroupMemberRole, default=GroupMemberRole.MEMBER, nullable=False)
+
+    ## fix: make GroupMemberRole wark with sqlalchemy and postgres
+    Column("role", String, default=GroupMemberRole.MEMBER, nullable=False)
 )
 
 class OrganizerGroupSchema(Base):
@@ -22,7 +24,7 @@ class OrganizerGroupSchema(Base):
     name = Column(String, unique=True, index=True, nullable=False)
     description = Column(String, index=True)
 
-    created_at = Column(DateTime, index=True)
+    created_at = Column(postgresql.TIMESTAMP, index=True)
 
     events = relationship("EventSchema", back_populates="organizer_group")
 

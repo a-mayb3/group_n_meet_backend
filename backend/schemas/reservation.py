@@ -9,7 +9,7 @@ reservation = Table(
     Base.metadata,
     Column("user_id", postgresql.UUID(as_uuid=True), ForeignKey("users.id"), nullable=False),
     Column("event_id", postgresql.UUID(as_uuid=True), ForeignKey("events.id"), nullable=False),
-    Column("reserved_at", DateTime, index=True, nullable=False),
+    Column("reserved_at", postgresql.TIMESTAMP, index=True, nullable=False),
     Column("is_cancelled", Boolean, default=False, nullable=False),
 
     Column("hash_code", postgresql.BYTEA, primary_key=True, unique=True, index=True, nullable=False), 
