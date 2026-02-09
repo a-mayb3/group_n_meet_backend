@@ -10,7 +10,6 @@ services:
     volumes:
       - ./postgresql/.postgres-data:/var/lib/postgresql/data
       - ./postgresql/postgresql.conf:/etc/postgresql/postgresql.conf
-      - ./postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
   backend:
     build:
       context: ./backend
