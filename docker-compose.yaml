@@ -1,10 +1,3 @@
-
-networks:
-  db:
-    internal: true
-    enable_ipv6: false
-  api:
-
 services:
   postgres:
     image: postgres:alpine
@@ -14,17 +7,17 @@ services:
       - POSTGRES_DB=group_n_meet
     ports:
       - "0.0.0.0:5432:5432"
-    user: postgres
+    expose:
+      - 5432
     volumes:
-      - ./postgresql/.postgres-data:/var/lib/postgresql/data
-      - ./postgresql/postgresql.conf:/etc/postgresql/postgresql.conf
-    networks:
-      - db
+      - ./postgresql/.postgres-data:/var/lib/postgresql/:rw
+      #- ./postgresql/postgresql.conf:/etc/postgresql/postgresql.conf:ro
 
   backend:
     build:
       context: ./backend
       dockerfile: dockerfile
+
     ports:
       - "0.0.0.0:8000:8000"
     expose:
@@ -36,6 +29,7 @@ services:
       - SESSION_SECRET_KEY=${SESSION_SECRET_KEY}
     depends_on:
       - postgres
-    networks:
-      - db
-      - api
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend
