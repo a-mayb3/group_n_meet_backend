@@ -1,6 +1,6 @@
 import os
 
-SESSION_SECRET_KEY = os.getenv("SESSION_SECRET_KEY", "your-secret-key-change-this-in-production")
+SESSION_SECRET_KEY = os.getenv("SESSION_SECRET_KEY", "changeme")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440
 

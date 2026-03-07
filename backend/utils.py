@@ -1,5 +1,4 @@
 import os
-from urllib import request
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status, Response
 from database import db_dependency

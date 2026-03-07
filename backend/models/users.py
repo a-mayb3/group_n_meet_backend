@@ -14,5 +14,6 @@ class UserFullInfo(UserBase):
     rsvps: List[RSVPBase] = []
 
 class UserAuth(BaseModel):
+    """Info sent by the client when logging in."""
     email_address: str
     password: str
