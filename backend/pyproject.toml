@@ -1,0 +1,19 @@
+[project]
+name = "gnm_backend"
+version = "0.1dev1"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "alembic",
+    "python-jose",
+    "passlib[bcrypt]",
+    "python-multipart",
+    "pydantic",
+    "pytest",
+    "pytest-asyncio",
+    "httpx",
+]
+[project.scripts]
+gnm-backend = "main:main"

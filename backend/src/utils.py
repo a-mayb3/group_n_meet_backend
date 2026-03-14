@@ -1,7 +1,7 @@
 import os
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status, Response
-from database import db_dependency
+from backend.src.database import db_dependency
 from jose import JWTError, jwt
 from datetime import datetime, timedelta, timezone
 import models
@@ -10,7 +10,7 @@ import schemas.user as user_schemas
 
 from pyargon2 import hash
 
-from config import SESSION_SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+from backend.src.config import SESSION_SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None): 
     """Create a JWT token"""

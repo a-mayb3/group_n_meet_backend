@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from os import environ
 
 # TODO:  make this work with docker compose stack
-URL_DATABASE = f"postgresql+psycopg2://{environ['POSTGRES_USER']}:{environ['POSTGRES_PASSWORD']}@172.20.0.2:5432/{environ['POSTGRES_DB']}"
+URL_DATABASE = f"postgresql+psycopg2://{environ['POSTGRES_USER']}:{environ['POSTGRES_PASSWORD']}@postgres:5432/{environ['POSTGRES_DB']}"
 
 engine = create_engine(URL_DATABASE)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

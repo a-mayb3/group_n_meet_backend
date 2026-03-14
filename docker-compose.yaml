@@ -7,8 +7,6 @@ services:
       - POSTGRES_DB=group_n_meet
     ports:
       - "0.0.0.0:5432:5432"
-    expose:
-      - 5432
     volumes:
       - ./postgresql/.postgres-data:/var/lib/postgresql/:rw
       #- ./postgresql/postgresql.conf:/etc/postgresql/postgresql.conf:ro
@@ -17,16 +15,14 @@ services:
     build:
       context: ./backend
       dockerfile: dockerfile
-
     ports:
       - "0.0.0.0:8000:8000"
-    expose:
-      - 8000
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=group_n_meet
       - SESSION_SECRET_KEY=${SESSION_SECRET_KEY}
+      - BIND_ADDRESS=0.0.0.0
     depends_on:
       - postgres
     develop:

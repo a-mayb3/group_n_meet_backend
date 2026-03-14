@@ -14,7 +14,7 @@ from database import get_db, init_db
 
 from routes import events, me
 
-import config
+import config as config
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -40,6 +40,7 @@ app = FastAPI(
         "name": "AGPL-3.0-or-later",
         "url":"https://www.gnu.org/licenses/agpl-3.0.html"},
     title="Group&Meet RestAPI",
+    
     )
 
  ## Adding middlewares
