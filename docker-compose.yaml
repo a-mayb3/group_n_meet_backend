@@ -11,9 +11,9 @@ services:
       - ./postgresql/.postgres-data:/var/lib/postgresql/:rw
       #- ./postgresql/postgresql.conf:/etc/postgresql/postgresql.conf:ro
 
-  backend:
+  fastapi:
     build:
-      context: ./backend
+      context: .
       dockerfile: dockerfile
     ports:
       - "0.0.0.0:8000:8000"
