@@ -1,16 +1,16 @@
 import os
-
-from fastapi import APIRouter, Depends, HTTPException, Request, status, Response
-from backend.src.database import db_dependency
-from jose import JWTError, jwt
 from datetime import datetime, timedelta, timezone
-import models
 
-import schemas.user as user_schemas
-
+from pydantic import SecretStr
+from fastapi import APIRouter, Depends, HTTPException, Request, status, Response
+from jose import JWTError, jwt
 from pyargon2 import hash
 
-from backend.src.config import SESSION_SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+import models
+import schemas.user as user_schemas
+from database import db_dependency
+
+from config import SESSION_SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None): 
     """Create a JWT token"""
@@ -25,11 +25,11 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, SESSION_SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-def verify_jwt_token(token: str):
+def verify_jwt_token(token: SecretStr):
     """Verify and decode a JWT token"""
     
     try:
-        payload = jwt.decode(token, SESSION_SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token=token, key=SESSION_SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("sub")
         if user_id is None:
             raise HTTPException(
@@ -69,7 +69,7 @@ def get_user_from_jwt(request: Request, db: db_dependency) -> user_schemas.UserS
         request.cookies.clear() ## removing invalid auth cookie
         raise
 
-def verify_user_password(user_id: int, password: str, db: db_dependency) -> None:
+def verify_user_password(user_id: int, password: SecretStr, db: db_dependency) -> None:
     """Verify user's password"""
     db_user = db.query(user_schemas.UserSchema.UserBase).filter(user_schemas.UserSchema.id == user_id).first()
     if db_user is None:
