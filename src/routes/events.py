@@ -1,17 +1,17 @@
-from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
-from sqlalchemy.orm import Session
-from sqlalchemy import Column, String
-from sqlalchemy.ext.declarative import declarative_base
 from typing import List, Optional
-from database import get_db
-from schemas.organizer_group import OrganizerGroupSchema
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import Column, String
+from sqlalchemy.orm import Session
+from sqlalchemy.ext.declarative import declarative_base
 
-from models.events import EventBase, EventQueryParams
+from database import get_db
+
+from schemas.organizer_group import OrganizerGroupSchema
 from schemas.event import EventSchema
 
-Base = declarative_base()
+from models.events import EventBase, EventQueryParams
 
+Base = declarative_base()
 
 router = APIRouter(
     prefix="/events",
@@ -50,7 +50,6 @@ def search_events(params: EventQueryParams = Depends(), db: Session = Depends(ge
     
     if params.end_time_to is not None:
         query = query.filter(EventSchema.end_time <= params.end_time_to)
-
 
     events = query.all()
     return events
