@@ -1,7 +1,7 @@
 ##
 ## dockerfile
 ##
-## Author: Borgia Leiva <edoardo.borgia.leiva@outlook.com> 
+## Author: Borgia Leiva <edoardo.borgia.leiva@outlook.com> <edbole@campusaula.com> 
 ##
 
 ## Builder stage
@@ -23,6 +23,9 @@ FROM python:alpine
 LABEL author="Borgia Leiva <edoardo.borgia.leiva@outlook.com>"
 LABEL version="0.1.dev1"
 LABEL description="Backend image for Group&Meet made with FastAPI."
+
+RUN adduser -D group_n_meet
+USER group_n_meet
 
 COPY --from=builder /install /usr/local
 COPY --chmod=755 . .
