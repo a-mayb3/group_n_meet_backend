@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, SecretStr
 from typing import List
 
 from models.rsvps import RSVPBase
@@ -16,4 +16,4 @@ class UserFullInfo(UserBase):
 class UserAuth(BaseModel):
     """Info sent by the client when logging in."""
     email_address: EmailStr
-    password: str
+    password: SecretStr
