@@ -11,20 +11,26 @@ from models.users import UserBase, UserAuth
 
 router = APIRouter(
     prefix="/me",
-    tags=["me"],
+    tags=["me"]
 )
 
-"""Get logged-in user information"""
 @router.get("/")
-def read_me(db: Session = Depends(get_db)):
+def get_personal_info(db: Session = Depends(get_db)):
+    """
+    Get logged-in user's profile information
+    """
+    raise NotImplementedError("Get personal info functionality is not implemented yet")
     raise HTTPException(status_code=501, detail="Not implemented yet")
 
-"""Get logged-in user's organizer groups"""
 @router.get("/organizer-groups")
-def read_my_organizer_groups(db: Session = Depends(get_db)):
+def get_personal_organizer_groups(db: Session = Depends(get_db)):
+    """
+    Get logged-in user's organizer groups
+    """
+    raise NotImplementedError("Get personal organizer groups functionality is not implemented yet") 
     raise HTTPException(status_code=501, detail="Not implemented yet")
 
-@router.get("/login",status_code=401)
+@router.post("/login", status_code=401)
 def login_user(auth: UserAuth, db: Session = Depends(get_db)):
 
     query =  db.query(UserSchema).filter(UserSchema.email == auth.email_address)
@@ -33,19 +39,19 @@ def login_user(auth: UserAuth, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
-    correctCredentials = hash(
+    correct_credentials = hash(
         password=user.password_hash.encode(),
         salt=user.password_salt.encode(),
         variant="id"
         )
     
-    givenCredentials = hash(
+    given_credentials = hash(
         password=auth.password,
         salt=user.password_salt.encode(),
         variant="id"
         )
 
-    if (givenCredentials != correctCredentials):
+    if (given_credentials != correct_credentials):
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password"
@@ -53,4 +59,27 @@ def login_user(auth: UserAuth, db: Session = Depends(get_db)):
     
     return {"message": "Login successful", "user_id": str(user.id)}
 
+@router.get("/reservations")
+def get_personal_rsvps(db: Session = Depends(get_db)):
+    """
+    Get the current user's RSVPs.
+    """
+    raise NotImplementedError("Get personal RSVPs functionality is not implemented yet")
+    raise HTTPException(status_code=501, detail="Not implemented yet")
 
+@router.delete("/logout")
+def logout_user():
+    """
+    Logout the current user.
+    """
+    raise NotImplementedError("Logout functionality is not implemented yet")
+    raise HTTPException(status_code=501, detail="Not implemented yet")
+
+
+## TODOS
+
+## TODO: Implement GET get_personal_info()
+## TODO: Implement GET get_personal_organizer_groups()
+## TODO: Implement GET get_personal_rsvps()
+## TODO: Implement DELETE logout_user()
+## TODO: Move POST login_user() to a separate auth module
