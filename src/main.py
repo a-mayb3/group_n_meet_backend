@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
+
 import logging
+import os
 
 from contextlib import asynccontextmanager
-
-import os
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,22 +12,27 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
 
 from database import get_db, init_db
-
 from routes import events, me
+import config
 
-import config as config
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
 
     ## Checking if environment variables are set
     if "POSTGRES_USER" not in os.environ:
+        logger.fatal("POSTGRES_USER environment variable not set")
         raise EnvironmentError("POSTGRES_USER environment variable not set")
     if "POSTGRES_DB" not in os.environ:
+        logger.fatal("POSTGRES_DB environment variable not set")
         raise EnvironmentError("POSTGRES_DB environment variable not set")
     if "POSTGRES_PASSWORD" not in os.environ:
+        logger.fatal("POSTGRES_PASSWORD environment variable not set")
         raise EnvironmentError("POSTGRES_PASSWORD environment variable not set")
     if "SESSION_SECRET_KEY" not in os.environ:
+        logger.fatal("SESSION_SECRET_KEY environment variable not set")
         raise EnvironmentError("SESSION_SECRET_KEY environment variable not set")
 
     init_db()
@@ -43,7 +49,7 @@ app = FastAPI(
     
     )
 
- ## Adding middlewares
+## Adding middlewares
 app.add_middleware( 
     CORSMiddleware, 
     allow_origins=["*"], 
@@ -65,24 +71,11 @@ app.include_router(me.router)
 async def health():
     return {"status": "ok"}
 
-def main():
-    import uvicorn
-    uvicorn.run(app,
-                host=os.getenv("BIND_ADDRESS", config.BIND_ADDRESS),
-                port=int(os.getenv("PORT", config.PORT))
-                )
-
-if __name__ == "__main__":
-    main()
-
-global_logger = logging.getLogger()
-global_logger.setLevel(logging.INFO)
-
 @app.exception_handler(HTTPException) 
 async def http_exception_handler(request, exc): 
     """Custom HTTP exception handler""" 
     
-    logger = global_logger
+    logger = logger
     logger.error(f"HTTP error occurred: {exc.detail}")
     
     return JSONResponse( 
@@ -92,16 +85,16 @@ async def http_exception_handler(request, exc):
                 "message": exc.detail, 
                 "type": "authentication_error" if exc.status_code == 401 else "authorization_error", 
                 "status_code": exc.status_code 
-             } 
-          }, 
-          headers=exc.headers 
-      ) 
+            } 
+        }, 
+        headers=exc.headers 
+    ) 
 
 @app.exception_handler(RequestValidationError) 
 async def validation_exception_handler(request, exc): 
     """Handle validation errors"""
 
-    logger = global_logger
+    logger = logger
     logger.error(f"Validation error: {exc.errors()}")
 
     return JSONResponse( 
@@ -111,15 +104,15 @@ async def validation_exception_handler(request, exc):
                 "message": "Validation error", 
                 "type": "validation_error", 
                 "details": exc.errors() 
-           } 
+            } 
         } 
-     )
+    )
 
 @app.exception_handler(Exception)
 async def general_exception_handler(request, exc):
     """Handle all other exceptions"""
 
-    logger = global_logger
+    logger = logger
     logger.error(f"Unexpected error: {exc}")
 
     return JSONResponse(
@@ -132,3 +125,22 @@ async def general_exception_handler(request, exc):
             }
         }
     )
+
+def main():
+    """
+    Entrypoint for pyproject.toml
+    
+    Starts the backed through uvicorn.
+    Uses environment variables for host and port, with fallback to config.py values.
+    """
+
+    import uvicorn
+    uvicorn.run(
+        app,
+        host=os.getenv("BIND_ADDRESS", config.BIND_ADDRESS),
+        port=int(os.getenv("PORT", config.PORT))
+    )
+
+## In case this is run directly.
+if __name__ == "__main__":
+    main()
