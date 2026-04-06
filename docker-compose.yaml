@@ -9,7 +9,6 @@ services:
       - "0.0.0.0:5432:5432"
     volumes:
       - ./postgresql/.postgres-data:/var/lib/postgresql/:rw
-      #- ./postgresql/postgresql.conf:/etc/postgresql/postgresql.conf:ro
 
   fastapi:
     build:

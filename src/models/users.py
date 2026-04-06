@@ -1,7 +1,7 @@
 import datetime
 
-from pydantic import BaseModel, EmailStr, SecretStr, UUID7, Optional
-from typing import List
+from pydantic import BaseModel, EmailStr, SecretStr, UUID7
+from typing import List, Optional
 
 from models.rsvps import RSVPBase
 

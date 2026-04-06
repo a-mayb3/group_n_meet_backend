@@ -13,27 +13,15 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from database import get_db, init_db
 from routes import events, me
-import config
+from config import Settings
+
+settings = Settings()
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-
-    ## Checking if environment variables are set
-    if "POSTGRES_USER" not in os.environ:
-        logger.fatal("POSTGRES_USER environment variable not set")
-        raise EnvironmentError("POSTGRES_USER environment variable not set")
-    if "POSTGRES_DB" not in os.environ:
-        logger.fatal("POSTGRES_DB environment variable not set")
-        raise EnvironmentError("POSTGRES_DB environment variable not set")
-    if "POSTGRES_PASSWORD" not in os.environ:
-        logger.fatal("POSTGRES_PASSWORD environment variable not set")
-        raise EnvironmentError("POSTGRES_PASSWORD environment variable not set")
-    if "SESSION_SECRET_KEY" not in os.environ:
-        logger.fatal("SESSION_SECRET_KEY environment variable not set")
-        raise EnvironmentError("SESSION_SECRET_KEY environment variable not set")
 
     init_db()
 
@@ -60,7 +48,7 @@ app.add_middleware(
 
 app.add_middleware(
     SessionMiddleware,
-    secret_key=config.SESSION_SECRET_KEY,
+    secret_key=settings.SESSION_SECRET_KEY,
 )
 
 ## Including routes
@@ -75,7 +63,6 @@ async def health():
 async def http_exception_handler(request, exc): 
     """Custom HTTP exception handler""" 
     
-    logger = logger
     logger.error(f"HTTP error occurred: {exc.detail}")
     
     return JSONResponse( 
@@ -94,7 +81,6 @@ async def http_exception_handler(request, exc):
 async def validation_exception_handler(request, exc): 
     """Handle validation errors"""
 
-    logger = logger
     logger.error(f"Validation error: {exc.errors()}")
 
     return JSONResponse( 
@@ -112,7 +98,6 @@ async def validation_exception_handler(request, exc):
 async def general_exception_handler(request, exc):
     """Handle all other exceptions"""
 
-    logger = logger
     logger.error(f"Unexpected error: {exc}")
 
     return JSONResponse(
@@ -137,10 +122,10 @@ def main():
     import uvicorn
     uvicorn.run(
         app,
-        host=os.getenv("BIND_ADDRESS", config.BIND_ADDRESS),
-        port=int(os.getenv("PORT", config.PORT))
+        host=settings.BIND_ADDRESS,
+        port=settings.PORT
     )
 
 ## In case this is run directly.
 if __name__ == "__main__":
-    main()
+    main()  

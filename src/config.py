@@ -17,6 +17,13 @@ class Settings(BaseSettings):
 
   SESSION_SECRET_KEY: str = Field(default="changeme")
 
+  # Postgres connection settings (migrated from environment usage)
+  POSTGRES_USER: str = Field(default="postgres")
+  POSTGRES_PASSWORD: str = Field(default="postgres")
+  POSTGRES_DB: str = Field(default="group_n_meet")
+  POSTGRES_HOST: str = Field(default="postgres")
+  POSTGRES_PORT: int = Field(default=5432)
+
   PORT : int = Field(default=8000)
   BIND_ADDRESS: str = Field(default="0.0.0.0")
 
