@@ -9,7 +9,7 @@ from database import get_db
 from schemas.organizer_group import OrganizerGroupSchema
 from schemas.event import EventSchema
 
-from models.events import EventBase, EventQueryParams
+from models.events import EventBase, EventSearchParameters
 
 Base = declarative_base()
 
@@ -24,7 +24,7 @@ def read_events(db: Session = Depends(get_db)):
     return events
 
 @router.get("/search", response_model=List[EventBase])
-def search_events(params: EventQueryParams = Depends(), db: Session = Depends(get_db)):
+def search_events(params: EventSearchParameters = Depends(), db: Session = Depends(get_db)):
     query = db.query(EventSchema)
 
     if params is None:

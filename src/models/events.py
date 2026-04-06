@@ -1,17 +1,17 @@
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID7
 
 class EventBase(BaseModel):
     
-    id: str
+    id: UUID7
     name: str
     description: Optional[str] = None
     start_time: Optional[str] = None
     end_time: Optional[str] = None
     place: Optional[str] = None
-    organizer_group_id: str
+    organizer_group_id: UUID7
 
-class EventQueryParams(BaseModel):
+class EventSearchParameters(BaseModel):
     """Query parameters for searching events"""
 
     name: Optional[str] = None
