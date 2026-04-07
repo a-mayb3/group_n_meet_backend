@@ -1,3 +1,4 @@
+from dataclasses import Field
 import os
 
 from pydantic import Field, PostgresDsn
@@ -26,6 +27,3 @@ class Settings(BaseSettings):
 
   PORT : int = Field(default=8000)
   BIND_ADDRESS: str = Field(default="0.0.0.0")
-
-
-## TODO: migrate to pydantic-settings

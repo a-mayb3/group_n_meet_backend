@@ -13,6 +13,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from database import get_db, init_db
 from routes import events, me
+
 from config import Settings
 
 settings = Settings()
@@ -22,6 +23,8 @@ logger.setLevel(logging.INFO)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+
+    logger.debug(settings.model_dump())
 
     init_db()
 

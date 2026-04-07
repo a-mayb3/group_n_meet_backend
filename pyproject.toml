@@ -14,6 +14,16 @@ dependencies = [
     "pytest",
     "pytest-asyncio",
     "httpx",
+    "pydantic-settings>=2.13.1",
+]
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Private :: Do Not Upload",
+    
+    "Operating System :: OS Independent",
+
+    "Programming Language :: Python :: 3",
+    "Framework :: FastAPI",
 ]
 [project.scripts]
 gnm-backend = "main:main"
