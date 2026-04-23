@@ -27,4 +27,4 @@ services:
     develop:
       watch:
         - action: rebuild
-          path: ./backend
+          path: ./src

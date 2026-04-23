@@ -5,9 +5,12 @@
 ##
 
 ## Builder stage
-FROM python:alpine AS builder
+FROM python:slim AS builder
 
-RUN apk add --no-cache build-base gcc musl-dev libffi-dev
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    libffi-dev
 
 WORKDIR /usr/src/group_n_meet_backend
 
@@ -18,13 +21,15 @@ COPY . .
 RUN pip install --no-cache-dir --prefix=/install .
 
 ## Runner stage
-FROM python:alpine
+FROM python:slim
 
 LABEL author="Borgia Leiva <edoardo.borgia.leiva@outlook.com>"
 LABEL version="0.1.dev1"
 LABEL description="Backend image for Group&Meet made with FastAPI."
 
-RUN adduser -D group_n_meet
+RUN apt-get update && apt-get install -y --no-install-recommends wget \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m group_n_meet
 USER group_n_meet
 
 COPY --from=builder /install /usr/local
