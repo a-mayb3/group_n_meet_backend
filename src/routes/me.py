@@ -29,7 +29,7 @@ def get_personal_info(request: Request, response: Response, db: Session = Depend
     return user
 
 @router.get("/organizer-groups", response_model=list[OrganizerGroupBase])
-def get_personal_organizer_groups(request: Request, response: Response, db: Session = Depends(get_db)):
+def get_my_organizer_groups(request: Request, response: Response, db: Session = Depends(get_db)):
     """
     Get logged-in user's organizer groups
     """
@@ -85,8 +85,8 @@ def login_user(auth: UserAuth, request: Request, response: Response, db: Session
     
     return {"message": "Login successful", "user_id": str(user.id)}
 
-@router.get("/reservations", response_model=list[RSVPBase])
-def get_personal_rsvps(request: Request, response: Response, db: Session = Depends(get_db)):
+@router.get("/rsvps", response_model=list[RSVPBase])
+def get_my_rsvps(request: Request, response: Response, db: Session = Depends(get_db)):
     """
     Get the current user's RSVPs.
     """
@@ -121,7 +121,6 @@ def logout_user(request: Request, response: Response):
         pass
     response.delete_cookie("access_token")
     return {"message": "Logout successful"}
-
 
 ## TODOS
 

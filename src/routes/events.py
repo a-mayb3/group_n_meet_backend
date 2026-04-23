@@ -1,27 +1,38 @@
+import logging
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import Column, String
+from urllib import request
+from uuid import UUID
+
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
-from sqlalchemy.ext.declarative import declarative_base
 
 from database import get_db
+import utils
 
 from schemas.organizer_group import OrganizerGroupSchema
 from schemas.event import EventSchema
 
 from models.events import EventBase, EventSearchParameters
 
-Base = declarative_base()
+logger = logging.getLogger(__name__)
 
 router = APIRouter(
     prefix="/events",
     tags=["events"],
 )
 
-@router.get("/", response_model=List[EventBase])
-def read_events(db: Session = Depends(get_db)):
-    events = db.query(EventSchema).all()
-    return events
+@router.get("/{event_id}", response_model=EventBase)
+def read_event(event_id: str, db: Session = Depends(get_db)):
+
+    try:
+        event_id_uuid: UUID = UUID(event_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid event ID format")
+    
+    event = db.query(EventSchema).filter(EventSchema.id == event_id_uuid).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+    return event
 
 @router.get("/search", response_model=List[EventBase])
 def search_events(params: EventSearchParameters = Depends(), db: Session = Depends(get_db)):
@@ -53,3 +64,26 @@ def search_events(params: EventSearchParameters = Depends(), db: Session = Depen
 
     events = query.all()
     return events
+
+@router.post("/{event_id}/add_me")
+def add_me_to_event(
+    event_id: str,
+    request: Request,
+    db: Session = Depends(get_db),
+    ):
+
+    user = utils.get_user_from_jwt(request, db)
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    try:
+        event_id_uuid: UUID = UUID(event_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid event ID format")
+
+    event = db.query(EventSchema).filter(EventSchema.id == event_id_uuid).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+    
+    logger.debug(f"Adding user {user.id} to event {event_id_uuid}")

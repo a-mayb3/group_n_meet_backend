@@ -12,6 +12,5 @@ class EventSchema(Base):
     start_time = Column(DateTime, index=True)
     end_time = Column(DateTime, index=True)
     place = Column(String, index=True)
-
-    organizer_group = relationship("OrganizerGroupSchema", back_populates="events")
     
+    organizer_group_id = Column(postgresql.UUID(as_uuid=True), ForeignKey("organizer_groups.id"), index=True)
