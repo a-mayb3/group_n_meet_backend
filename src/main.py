@@ -12,7 +12,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
 
 from database import get_db, init_db
-from routes import events, me
+from routes import auth, events, me, organizer_groups
 
 from config import Settings
 
@@ -57,6 +57,7 @@ app.add_middleware(
 ## Including routes
 app.include_router(events.router)
 app.include_router(me.router)
+app.include_router(organizer_groups.router)
 
 @app.head("/health")
 async def health():
