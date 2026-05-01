@@ -15,10 +15,10 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /usr/src/group_n_meet_backend
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+RUN pip install --prefix=/install -r requirements.txt
 
 COPY . .
-RUN pip install --no-cache-dir --prefix=/install .
+RUN pip install --prefix=/install .
 
 ## Runner stage
 FROM python:slim
