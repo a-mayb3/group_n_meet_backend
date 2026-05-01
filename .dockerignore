@@ -1,1 +1,8 @@
+##
+## .dockerignore
+##
+
 postgresql/
+
+README.md
+LICENSE
