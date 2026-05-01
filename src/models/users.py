@@ -58,4 +58,3 @@ class UserUpdate(BaseModel):
 
     email_address: Optional[EmailStr]
     display_name: Optional[str]
-    password: Optional[SecretStr]

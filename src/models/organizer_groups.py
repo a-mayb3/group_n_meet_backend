@@ -15,4 +15,3 @@ class OrganizerGroupCreate(BaseModel):
 
 class OrganizerGroupSearchParameters(BaseModel):
     q: str | None = None
-

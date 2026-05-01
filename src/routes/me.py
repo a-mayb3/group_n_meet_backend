@@ -9,7 +9,7 @@ from schemas.user import UserSchema
 from schemas.organizer_group import OrganizerGroupSchema, organizer_group_members
 from schemas.reservation import reservation
 
-from models.users import UserBase, UserAuth
+from models.users import UserBase, UserAuth, UserUpdate
 from models.organizer_groups import OrganizerGroupBase
 from models.rsvps import RSVPBase
 
@@ -28,7 +28,7 @@ def get_personal_info(request: Request, response: Response, db: Session = Depend
     user = get_user_from_jwt(request, db, response)
     return user
 
-@router.get("/organizer-groups", response_model=list[OrganizerGroupBase])
+@router.get("/get_orgs", response_model=list[OrganizerGroupBase])
 def get_my_organizer_groups(request: Request, response: Response, db: Session = Depends(get_db)):
     """
     Get logged-in user's organizer groups
@@ -49,43 +49,7 @@ def get_my_organizer_groups(request: Request, response: Response, db: Session = 
         for group in groups
     ]
 
-@router.post("/login")
-def login_user(auth: UserAuth, request: Request, response: Response, db: Session = Depends(get_db)):
-
-    query =  db.query(UserSchema).filter(UserSchema.email == auth.email_address)
-    user = query.first()
-
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
-
-    correct_credentials = hash(
-        password=user.password_hash.encode(),
-        salt=user.password_salt.encode(),
-        variant="id"
-        )
-    
-    given_credentials = hash(
-        password=auth.password.get_secret_value(),
-        salt=user.password_salt.encode(),
-        variant="id"
-        )
-
-    if (given_credentials != correct_credentials):
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid email or password"
-            )
-
-    # set server-side session and cookie-based JWT
-    try:
-        request.session["user_id"] = str(user.id)
-    except Exception:
-        pass
-    renew_user_token(str(user.id), response)
-    
-    return {"message": "Login successful", "user_id": str(user.id)}
-
-@router.get("/rsvps", response_model=list[RSVPBase])
+@router.get("/get_rsvps", response_model=list[RSVPBase])
 def get_my_rsvps(request: Request, response: Response, db: Session = Depends(get_db)):
     """
     Get the current user's RSVPs.
@@ -110,22 +74,47 @@ def get_my_rsvps(request: Request, response: Response, db: Session = Depends(get
         for row in rows
     ]
 
-@router.delete("/logout")
-def logout_user(request: Request, response: Response):
+@router.delete("/delete_me")
+def delete_my_account(request: Request, response: Response, db: Session = Depends(get_db)):
     """
-    Logout the current user.
+    Delete the current user's account.
     """
-    try:
-        request.session.clear()
-    except Exception:
-        pass
+    user = get_user_from_jwt(request, db, response)
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    db.delete(user)
+    db.commit()
+
     response.delete_cookie("access_token")
-    return {"message": "Logout successful"}
+
+    return {"message": "Account deleted successfully"}
+
+@router.put("/",response_model=UserBase)
+def update_personal_info(request: Request, response: Response, db: Session = Depends(get_db), updated_info: UserUpdate = Depends()):
+    """
+    Update logged-in user's profile information
+    """
+    user: UserSchema = get_user_from_jwt(request, db, response)
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    if updated_info.display_name:
+        user.display_name = updated_info.display_name
+    if updated_info.email_address:
+        user.email_address = updated_info.email_address
+
+    db.commit()
+    db.refresh(user)
+
+    renew_user_token(response, user)
+
+    return user
 
 ## TODOS
 
 ## TODO: Implement GET get_personal_info()
 ## TODO: Implement GET get_personal_organizer_groups()
 ## TODO: Implement GET get_personal_rsvps()
-## TODO: Implement DELETE logout_user()
-## TODO: Move POST login_user() to a separate auth module

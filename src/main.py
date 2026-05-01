@@ -55,6 +55,7 @@ app.add_middleware(
 )
 
 ## Including routes
+app.include_router(auth.router)
 app.include_router(events.router)
 app.include_router(me.router)
 app.include_router(organizer_groups.router)

@@ -21,3 +21,13 @@ class EventSearchParameters(BaseModel):
     start_time_to: Optional[str] = None
     end_time_from: Optional[str] = None
     end_time_to: Optional[str] = None
+
+class EventCreate(BaseModel):
+
+    name: str
+    description: Optional[str] = None
+    start_time: Optional[str] = None
+    end_time: Optional[str] = None
+    place: Optional[str] = None
+    organizer_group_id: UUID7
+    
