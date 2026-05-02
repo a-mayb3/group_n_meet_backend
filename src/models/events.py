@@ -1,15 +1,18 @@
 from typing import List, Optional
-from pydantic import BaseModel, UUID7
+from uuid import UUID
+
+from pydantic import BaseModel, NaiveDatetime
 
 class EventBase(BaseModel):
-    
-    id: UUID7
+
+    id: UUID
     name: str
     description: Optional[str] = None
-    start_time: Optional[str] = None
-    end_time: Optional[str] = None
+    start_time: Optional[NaiveDatetime] = None
+    end_time: Optional[NaiveDatetime] = None
     place: Optional[str] = None
-    organizer_group_id: UUID7
+    organizer_group_id: UUID
+
 
 class EventSearchParameters(BaseModel):
     """Query parameters for searching events"""
@@ -17,17 +20,17 @@ class EventSearchParameters(BaseModel):
     name: Optional[str] = None
     organizer_group_name: Optional[str] = None
     places: Optional[List[str]] = None
-    start_time_from: Optional[str] = None
-    start_time_to: Optional[str] = None
-    end_time_from: Optional[str] = None
-    end_time_to: Optional[str] = None
+    start_time_from: Optional[NaiveDatetime] = None
+    start_time_to: Optional[NaiveDatetime] = None
+    end_time_from: Optional[NaiveDatetime] = None
+    end_time_to: Optional[NaiveDatetime] = None
+
 
 class EventCreate(BaseModel):
 
     name: str
     description: Optional[str] = None
-    start_time: Optional[str] = None
-    end_time: Optional[str] = None
+    start_time: Optional[NaiveDatetime] = None
+    end_time: Optional[NaiveDatetime] = None
     place: Optional[str] = None
-    organizer_group_id: UUID7
-    
+    organizer_group_id: UUID

@@ -1,12 +1,15 @@
-from pydantic import BaseModel, UUID7, StrictBool
+from pydantic import BaseModel, StrictBool
+from uuid import UUID
+
 
 class RSVPBase(BaseModel):
 
-    user_id: UUID7
-    event_id: UUID7
+    user_id: UUID
+    event_id: UUID
     reserved_at: str
     is_cancelled: StrictBool = False
 
+
 class RSVPCreate(BaseModel):
-    user_id: UUID7
-    event_id: UUID7
+    user_id: UUID
+    event_id: UUID

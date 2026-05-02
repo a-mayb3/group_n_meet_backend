@@ -1,17 +1,21 @@
 import datetime
-from pydantic import BaseModel, UUID7
+from uuid import UUID
+
+from pydantic import BaseModel, PastDatetime
+
 
 class OrganizerGroupBase(BaseModel):
 
-    id: UUID7
+    id: UUID
     name: str
     description: str
-    created: datetime.datetime
+    created: PastDatetime
 
 class OrganizerGroupCreate(BaseModel):
 
     name: str
     description: str
+
 
 class OrganizerGroupSearchParameters(BaseModel):
     q: str | None = None
