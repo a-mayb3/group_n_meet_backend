@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 
+
 class EventSchema(Base):
     __tablename__ = "events"
 
@@ -12,5 +13,15 @@ class EventSchema(Base):
     start_time = Column(DateTime, index=True)
     end_time = Column(DateTime, index=True)
     place = Column(String, index=True)
-    
-    organizer_group_id = Column(postgresql.UUID(as_uuid=True), ForeignKey("organizer_groups.id"), index=True)
+
+    organizer_group_id = Column(
+        postgresql.UUID(as_uuid=True),
+        ForeignKey("organizer_groups.id"),
+        index=True,
+    )
+
+    organizer_group = relationship(
+        "OrganizerGroupSchema",
+        back_populates="events",
+        foreign_keys=[organizer_group_id],
+    )

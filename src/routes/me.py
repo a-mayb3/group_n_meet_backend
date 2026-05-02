@@ -1,3 +1,18 @@
+import logging
+from datetime import datetime, timezone
+
+from typing import Any, cast
+
+from schemas.user import UserSchema
+from schemas.organizer_group import OrganizerGroupSchema, organizer_group_members
+from schemas.reservation import reservation
+
+from utils import get_user_from_jwt, renew_user_token
+
+from models.users import UserBase, UserAuth, UserUpdate
+from models.organizer_groups import OrganizerGroupBase
+from models.rsvps import RSVPBase
+
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -5,31 +20,35 @@ from database import get_db
 
 from pyargon2 import hash
 
-from schemas.user import UserSchema
-from schemas.organizer_group import OrganizerGroupSchema, organizer_group_members
-from schemas.reservation import reservation
+logger = logging.getLogger(__name__)
 
-from models.users import UserBase, UserAuth, UserUpdate
-from models.organizer_groups import OrganizerGroupBase
-from models.rsvps import RSVPBase
+router = APIRouter(prefix="/me", tags=["me"])
 
-from utils import get_user_from_jwt, renew_user_token
-
-router = APIRouter(
-    prefix="/me",
-    tags=["me"]
-)
 
 @router.get("/", response_model=UserBase)
-def get_personal_info(request: Request, response: Response, db: Session = Depends(get_db)):
+def get_personal_info(
+    request: Request, response: Response, db: Session = Depends(get_db)
+):
     """
     Get logged-in user's profile information
     """
     user = get_user_from_jwt(request, db, response)
-    return user
+
+    return UserBase.model_validate(
+        {
+            "id": user.id,
+            "email_address": user.email,
+            "display_name": user.display_name,
+            "user_type": user.user_type,
+            "created": user.created_at or datetime.now(timezone.utc),
+        }
+    )
+
 
 @router.get("/get_orgs", response_model=list[OrganizerGroupBase])
-def get_my_organizer_groups(request: Request, response: Response, db: Session = Depends(get_db)):
+def get_my_organizer_groups(
+    request: Request, response: Response, db: Session = Depends(get_db)
+):
     """
     Get logged-in user's organizer groups
     """
@@ -45,9 +64,17 @@ def get_my_organizer_groups(request: Request, response: Response, db: Session = 
     )
 
     return [
-        group
+        OrganizerGroupBase.model_validate(
+            {
+                "id": group.id,
+                "name": group.name,
+                "description": group.description,
+                "created": group.created_at or datetime.now(timezone.utc),
+            }
+        )
         for group in groups
     ]
+
 
 @router.get("/get_rsvps", response_model=list[RSVPBase])
 def get_my_rsvps(request: Request, response: Response, db: Session = Depends(get_db)):
@@ -74,8 +101,11 @@ def get_my_rsvps(request: Request, response: Response, db: Session = Depends(get
         for row in rows
     ]
 
+
 @router.delete("/delete_me")
-def delete_my_account(request: Request, response: Response, db: Session = Depends(get_db)):
+def delete_my_account(
+    request: Request, response: Response, db: Session = Depends(get_db)
+):
     """
     Delete the current user's account.
     """
@@ -91,8 +121,14 @@ def delete_my_account(request: Request, response: Response, db: Session = Depend
 
     return {"message": "Account deleted successfully"}
 
-@router.put("/",response_model=UserBase)
-def update_personal_info(request: Request, response: Response, db: Session = Depends(get_db), updated_info: UserUpdate = Depends()):
+
+@router.put("/", response_model=UserBase)
+def update_personal_info(
+    request: Request,
+    response: Response,
+    db: Session = Depends(get_db),
+    updated_info: UserUpdate = Depends(),
+):
     """
     Update logged-in user's profile information
     """
@@ -102,16 +138,25 @@ def update_personal_info(request: Request, response: Response, db: Session = Dep
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     if updated_info.display_name:
-        user.display_name = updated_info.display_name
+        cast(Any, user).display_name = updated_info.display_name
     if updated_info.email_address:
-        user.email_address = updated_info.email_address
+        cast(Any, user).email_address = updated_info.email_address
 
     db.commit()
     db.refresh(user)
 
-    renew_user_token(response, user)
+    renew_user_token(str(user.id), response)
 
-    return user
+    return UserBase.model_validate(
+        {
+            "id": user.id,
+            "email_address": user.email,
+            "display_name": user.display_name,
+            "user_type": user.user_type,
+            "created": user.created_at or datetime.now(timezone.utc),
+        }
+    )
+
 
 ## TODOS
 
