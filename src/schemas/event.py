@@ -14,6 +14,8 @@ class EventSchema(Base):
     end_time = Column(DateTime, index=True)
     place = Column(String, index=True)
 
+    is_cancelled = Column(postgresql.BOOLEAN, default=False)
+
     organizer_group_id = Column(
         postgresql.UUID(as_uuid=True),
         ForeignKey("organizer_groups.id"),
