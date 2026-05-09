@@ -102,7 +102,7 @@ def verify_user_password(user_id: UUID, password: SecretStr, db: Session) -> Non
     
     hashed_password = hash(
         password=password.get_secret_value(),
-        salt=str(getattr(db_user, "password_salt")),
+        salt=str(db_user.password_salt),
         variant="id",
     )
     if hashed_password != db_user.password_hash:

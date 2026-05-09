@@ -92,12 +92,14 @@ def get_my_rsvps(request: Request, response: Response, db: Session = Depends(get
     ).all()
 
     return [
-        {
-            "user_id": row.user_id,
-            "event_id": row.event_id,
-            "reserved_at": row.reserved_at,
-            "is_cancelled": row.is_cancelled,
-        }
+        RSVPBase.model_validate(
+            {
+                "user_id": row.user_id,
+                "event_id": row.event_id,
+                "reserved_at": row.reserved_at,
+                "is_cancelled": row.is_cancelled,
+            }
+        )
         for row in rows
     ]
 
@@ -124,10 +126,10 @@ def delete_my_account(
 
 @router.put("/", response_model=UserBase)
 def update_personal_info(
+    updated_info: UserUpdate,
     request: Request,
     response: Response,
     db: Session = Depends(get_db),
-    updated_info: UserUpdate = Depends(),
 ):
     """
     Update logged-in user's profile information
@@ -140,7 +142,7 @@ def update_personal_info(
     if updated_info.display_name:
         cast(Any, user).display_name = updated_info.display_name
     if updated_info.email_address:
-        cast(Any, user).email_address = updated_info.email_address
+        cast(Any, user).email = updated_info.email_address
 
     db.commit()
     db.refresh(user)
@@ -157,9 +159,3 @@ def update_personal_info(
         }
     )
 
-
-## TODOS
-
-## TODO: Implement GET get_personal_info()
-## TODO: Implement GET get_personal_organizer_groups()
-## TODO: Implement GET get_personal_rsvps()

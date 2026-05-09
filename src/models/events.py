@@ -15,16 +15,14 @@ class EventBase(BaseModel):
 
 
 class EventSearchParameters(BaseModel):
-    """Query parameters for searching events"""
 
     name: Optional[str] = None
     organizer_group_name: Optional[str] = None
-    places: Optional[List[str]] = None
+    place: Optional[str] = None
     start_time_from: Optional[NaiveDatetime] = None
     start_time_to: Optional[NaiveDatetime] = None
     end_time_from: Optional[NaiveDatetime] = None
     end_time_to: Optional[NaiveDatetime] = None
-
 
 class EventCreate(BaseModel):
 
@@ -34,3 +32,11 @@ class EventCreate(BaseModel):
     end_time: Optional[NaiveDatetime] = None
     place: Optional[str] = None
     organizer_group_id: UUID
+
+class EventUpdate(BaseModel):
+
+    name: Optional[str] = None
+    description: Optional[str] = None
+    start_time: Optional[NaiveDatetime] = None
+    end_time: Optional[NaiveDatetime] = None
+    place: Optional[str] = None

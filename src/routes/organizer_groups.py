@@ -6,7 +6,7 @@ from uuid import UUID
 from schemas.organizer_group import OrganizerGroupSchema
 from schemas.event import EventSchema
 
-from models.organizer_groups import OrganizerGroupBase, OrganizerGroupCreate
+from models.organizer_groups import OrganizerGroupBase, OrganizerGroupCreate, OrganizerGroupUpdate
 from models.events import EventBase
 
 from typing import List
@@ -100,6 +100,12 @@ def delete_organizer_group(id: UUID, request: Request, db: Session = Depends(get
             detail="Forbidden: You are not a member of this organizer group",
         )
 
+    if len(group.members) > 1:
+        raise HTTPException(
+            status_code=400,
+            detail="Cannot delete organizer group: There are other members in the group. Please remove all members before deleting the group.",
+        )
+
     db.delete(group)
     db.commit()
 
@@ -144,3 +150,38 @@ def leave_organizer_group(
     db.commit()
 
     return {"message": "Left organizer group successfully"}
+
+@router.put("/{id}")
+def update_organizer_group(
+    id: UUID,
+    group_update: OrganizerGroupUpdate,
+    request: Request,
+    db: Session = Depends(get_db),
+):
+    """Update an organizer group by its ID."""
+
+    logger.debug(f"Updating organizer group {id} by {request.client}")
+
+    user = get_user_from_jwt(request, db)
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    group = db.query(OrganizerGroupSchema).filter(OrganizerGroupSchema.id == id).first()
+
+    if not group:
+        raise HTTPException(status_code=404, detail="Organizer group not found")
+    
+    if user not in group.members:
+        raise HTTPException(
+            status_code=403,
+            detail="Forbidden: You are not a member of this organizer group",
+        )
+    
+    for key, value in group_update.model_dump().items():
+        setattr(group, key, value)
+
+    db.commit()
+    db.refresh(group)
+
+    return OrganizerGroupBase.model_validate(group)

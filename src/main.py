@@ -12,7 +12,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
 
 from database import get_db, init_db
-from routes import auth, events, me, organizer_groups
+from routes import auth, events, me, organizer_groups, user
 
 from config import Settings
 
@@ -57,6 +57,7 @@ app.add_middleware(
 ## Including routes
 app.include_router(auth.router)
 app.include_router(events.router)
+app.include_router(user.router)
 app.include_router(me.router)
 app.include_router(organizer_groups.router)
 

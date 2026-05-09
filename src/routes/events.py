@@ -3,7 +3,8 @@ from typing import List, Optional
 from urllib import request
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, Query
+from pydantic import NaiveDatetime
 from sqlalchemy.orm import Session
 
 from database import get_db
@@ -13,7 +14,7 @@ from schemas.organizer_group import OrganizerGroupSchema
 from schemas.event import EventSchema
 from schemas.reservation import reservation
 
-from models.events import EventBase, EventCreate, EventSearchParameters
+from models.events import EventBase, EventCreate, EventSearchParameters, EventUpdate
 
 logger = logging.getLogger(__name__)
 
@@ -22,21 +23,31 @@ router = APIRouter(
     tags=["events"],
 )
 
-@router.get("/{event_id}", response_model=EventBase)
-def read_event(event_id: str, db: Session = Depends(get_db)):
-
-    try:
-        event_id_uuid: UUID = UUID(event_id)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Invalid event ID format")
-    
-    event = db.query(EventSchema).filter(EventSchema.id == event_id_uuid).first()
-    if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
-    return event
+def get_event_search_params(
+    name: Optional[str] = Query(None),
+    organizer_group_name: Optional[str] = Query(None),
+    place: Optional[str] = Query(None),
+    start_time_from: Optional[NaiveDatetime] = Query(None),
+    start_time_to: Optional[NaiveDatetime] = Query(None),
+    end_time_from: Optional[NaiveDatetime] = Query(None),
+    end_time_to: Optional[NaiveDatetime] = Query(None),
+) -> EventSearchParameters:
+    return EventSearchParameters(
+        name=name,
+        organizer_group_name=organizer_group_name,
+        place=place,
+        start_time_from=start_time_from,
+        start_time_to=start_time_to,
+        end_time_from=end_time_from,
+        end_time_to=end_time_to,
+    )
 
 @router.get("/search", response_model=List[EventBase])
-def search_events(params: EventSearchParameters = Depends(), db: Session = Depends(get_db)):
+def search_events(
+    params: EventSearchParameters = Depends(get_event_search_params),
+    db: Session = Depends(get_db)
+    ):
+    
     query = db.query(EventSchema)
 
     if params is None:
@@ -48,8 +59,8 @@ def search_events(params: EventSearchParameters = Depends(), db: Session = Depen
     if params.organizer_group_name:
         query = query.join(OrganizerGroupSchema).filter(OrganizerGroupSchema.name.ilike(f"%{params.organizer_group_name}%"))
     
-    if params.places:
-        query = query.filter(EventSchema.place.in_(params.places))
+    if params.place:
+        query = query.filter(EventSchema.place == params.place)
     
     if params.start_time_from is not None:
         query = query.filter(EventSchema.start_time >= params.start_time_from)
@@ -65,6 +76,19 @@ def search_events(params: EventSearchParameters = Depends(), db: Session = Depen
 
     events = query.all()
     return events
+
+@router.get("/{event_id}", response_model=EventBase)
+def read_event(event_id: str, db: Session = Depends(get_db)):
+
+    try:
+        event_id_uuid: UUID = UUID(event_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid event ID format")
+    
+    event = db.query(EventSchema).filter(EventSchema.id == event_id_uuid).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+    return event
 
 @router.post("/{event_id}/add_me")
 def add_me_to_event(
@@ -150,3 +174,40 @@ def create_event(
     db.refresh(new_event)
 
     logger.debug(f"Creating event {event.name} by user {user.id}")
+
+@router.put("/{event_id}")
+def update_event(
+    event_id: str,
+    event_update: EventUpdate,
+    request: Request,
+    db: Session = Depends(get_db),
+    ):
+
+    user = utils.get_user_from_jwt(request, db)
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    try:
+        event_id_uuid: UUID = UUID(event_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid event ID format")
+
+    event = db.query(EventSchema).filter(EventSchema.id == event_id_uuid).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    organizerGroup = db.query(OrganizerGroupSchema).filter(OrganizerGroupSchema.id == event.organizer_group_id).first()
+
+    if not organizerGroup:
+        raise HTTPException(status_code=400, detail="Invalid organizer group ID")
+
+    if organizerGroup not in user.organizer_groups or user not in organizerGroup.members:
+        raise HTTPException(status_code=403, detail="User is not a member of the organizer group")
+
+    for key, value in event_update.model_dump().items():
+        setattr(event, key, value)
+
+    db.commit()
+    
+    logger.debug(f"Updating event {event.name} by user {user.id}")

@@ -14,10 +14,8 @@ class UserAuth(BaseModel):
     email_address: EmailStr
     password: SecretStr
 
-
 class UserSearchParameters(BaseModel):
     q: str = ""
-
 
 class UserCreate(BaseModel):
     email_address: EmailStr
@@ -30,8 +28,8 @@ class UserUpdate(BaseModel):
     User info sent by the client when updating an existing user.
     """
 
-    email_address: Optional[EmailStr]
-    display_name: Optional[str]
+    email_address: Optional[EmailStr] = None
+    display_name: Optional[str] = None
 
 class UserPasswordUpdate(BaseModel):
     """
