@@ -1,13 +1,14 @@
 from sqlalchemy.dialects import postgresql
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, text
 from sqlalchemy.orm import relationship
 from database import Base
+import uuid
 
 
 class EventSchema(Base):
     __tablename__ = "events"
 
-    id = Column(postgresql.UUID(as_uuid=True), primary_key=True, index=True)
+    id = Column(postgresql.UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4, server_default=text("gen_random_uuid()"))
     name = Column(String, index=True)
     description = Column(String, index=True)
     start_time = Column(DateTime, index=True)

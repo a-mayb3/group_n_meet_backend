@@ -37,3 +37,9 @@ class UserSchema(Base):
     created_at = Column(
         TIMESTAMP, index=True, server_default=text("now()"), nullable=False
     )
+
+    organizer_groups = relationship(
+        "OrganizerGroupSchema",
+        secondary="organizer_group_members",
+        back_populates="members"
+    )

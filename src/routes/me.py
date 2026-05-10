@@ -142,7 +142,7 @@ def update_personal_info(
     if updated_info.display_name:
         cast(Any, user).display_name = updated_info.display_name
     if updated_info.email_address:
-        cast(Any, user).email = updated_info.email_address
+        cast(Any, user).email_address = updated_info.email_address
 
     db.commit()
     db.refresh(user)

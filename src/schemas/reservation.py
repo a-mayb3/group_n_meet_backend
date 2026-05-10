@@ -1,11 +1,11 @@
 from sqlalchemy.dialects import postgresql
-from sqlalchemy import Table, Column, Boolean, ForeignKey, func
+from sqlalchemy import Table, Column, Boolean, ForeignKey, func, text
 from database import Base
 
 reservation = Table(
     "reservations",
     Base.metadata,
-    Column("id", postgresql.UUID(as_uuid=True), primary_key=True, index=True),
+       Column("id", postgresql.UUID(as_uuid=True), primary_key=True, index=True, server_default=text('gen_random_uuid()')),
     Column("user_id", postgresql.UUID(as_uuid=True), ForeignKey("users.id"), nullable=False
            ),
     Column("event_id",

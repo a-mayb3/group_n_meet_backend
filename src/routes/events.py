@@ -1,7 +1,7 @@
 import logging
 from typing import List, Optional
 from urllib import request
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Query
 from pydantic import NaiveDatetime
@@ -88,6 +88,7 @@ def read_event(event_id: str, db: Session = Depends(get_db)):
     event = db.query(EventSchema).filter(EventSchema.id == event_id_uuid).first()
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
+    
     return event
 
 @router.post("/{event_id}/add_me")
@@ -111,11 +112,19 @@ def add_me_to_event(
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
     
-    new_rsvp = reservation.insert().values(user_id=user.id, event_id=event_id_uuid)
+    new_id = uuid4()
+    new_rsvp = reservation.insert().values(
+        id=new_id,
+        user_id=user.id,
+        event_id=event_id_uuid,
+        is_cancelled=False,
+        is_event_cancelled=False,
+    )
     db.execute(new_rsvp)
     db.commit()
     
     logger.debug(f"Adding user {user.id} to event {event_id_uuid}")
+    return {"id": str(new_id), "user_id": str(user.id), "event_id": str(event_id_uuid)}
 
 @router.delete("/{event_id}/remove_me")
 def remove_me_from_event(
@@ -165,15 +174,16 @@ def create_event(
     if not organizerGroup:
         raise HTTPException(status_code=400, detail="Invalid organizer group ID")
 
-    if organizerGroup not in user.organizer_groups or user not in organizerGroup.members:
+    if user not in organizerGroup.members:
         raise HTTPException(status_code=403, detail="User is not a member of the organizer group")
 
-    new_event = EventSchema(**event.dict(), organizer_group_id=event.organizer_group_id)
+    new_event = EventSchema(**event.model_dump())
     db.add(new_event)
     db.commit()
     db.refresh(new_event)
 
     logger.debug(f"Creating event {event.name} by user {user.id}")
+    return new_event
 
 @router.put("/{event_id}")
 def update_event(
@@ -202,7 +212,7 @@ def update_event(
     if not organizerGroup:
         raise HTTPException(status_code=400, detail="Invalid organizer group ID")
 
-    if organizerGroup not in user.organizer_groups or user not in organizerGroup.members:
+    if user not in organizerGroup.members:
         raise HTTPException(status_code=403, detail="User is not a member of the organizer group")
 
     for key, value in event_update.model_dump().items():
@@ -211,3 +221,5 @@ def update_event(
     db.commit()
     
     logger.debug(f"Updating event {event.name} by user {user.id}")
+
+    return event

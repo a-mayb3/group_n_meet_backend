@@ -1,7 +1,8 @@
 from sqlalchemy.dialects import postgresql
-from sqlalchemy import Table, Column, Enum, String, DateTime, ForeignKey
+from sqlalchemy import Table, Column, Enum, String, DateTime, ForeignKey, text
 from sqlalchemy.orm import relationship
 from database import Base
+import uuid
 
 class GroupMemberRole(str, Enum):
     MEMBER = "MEMBER"
@@ -20,11 +21,11 @@ organizer_group_members = Table(
 class OrganizerGroupSchema(Base):
     __tablename__ = "organizer_groups"
 
-    id = Column(postgresql.UUID(as_uuid=True), primary_key=True, index=True)
+    id = Column(postgresql.UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4, server_default=text("gen_random_uuid()"))
     name = Column(String, unique=True, index=True, nullable=False)
     description = Column(String, index=True)
 
-    created_at = Column(postgresql.TIMESTAMP, index=True)
+    created_at = Column(postgresql.TIMESTAMP, index=True, server_default=text("now()"), nullable=False)
 
     events = relationship("EventSchema", back_populates="organizer_group")
-
+    members = relationship("UserSchema", secondary=organizer_group_members)

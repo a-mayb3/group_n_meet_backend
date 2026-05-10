@@ -1,5 +1,6 @@
 import logging
 from urllib import request
+from datetime import datetime, timezone
 
 from uuid import UUID
 
@@ -38,14 +39,23 @@ def create_organizer_group(
     logger.debug(f"Creating organizer group {group.name} by user {user.id}")
 
     new_group: OrganizerGroupSchema = OrganizerGroupSchema(
-        **group.model_dump(), members=[user]
+        **group.model_dump(),
+        created_at=datetime.now(timezone.utc)
     )
+    new_group.members.append(user)
 
     db.add(new_group)
     db.commit()
     db.refresh(new_group)
 
-    return OrganizerGroupBase.model_validate(new_group)
+    return OrganizerGroupBase.model_validate(
+        {
+            "id": new_group.id,
+            "name": new_group.name,
+            "description": new_group.description,
+            "created": new_group.created_at,
+        }
+    )
 
 
 @router.get("/{id}", response_model=OrganizerGroupBase)
@@ -59,7 +69,14 @@ def get_organizer_group(id: str, request: Request, db: Session = Depends(get_db)
     if not group:
         raise HTTPException(status_code=404, detail="Organizer group not found")
 
-    return OrganizerGroupBase.model_validate(group)
+    return OrganizerGroupBase.model_validate(
+        {
+            "id": group.id,
+            "name": group.name,
+            "description": group.description,
+            "created": group.created_at,
+        }
+    )
 
 
 @router.get("/{id}/events", response_model=list[EventBase])
@@ -75,7 +92,17 @@ def get_organizer_group_events(
     if not group:
         raise HTTPException(status_code=404, detail="Organizer group not found")
 
-    return [EventBase.model_validate(event) for event in group.events]
+    return [EventBase.model_validate(
+        {
+            "id": event.id,
+            "name": event.name,
+            "description": event.description,
+            "start_time": event.start_time,
+            "end_time": event.end_time,
+            "place": event.place,
+            "organizer_group_id": event.organizer_group_id,
+        }
+    ) for event in group.events]
 
 
 @router.delete("/{id}")
@@ -184,4 +211,11 @@ def update_organizer_group(
     db.commit()
     db.refresh(group)
 
-    return OrganizerGroupBase.model_validate(group)
+    return OrganizerGroupBase.model_validate(
+        {
+            "id": group.id,
+            "name": group.name,
+            "description": group.description,
+            "created": group.created_at,
+        }
+    )
