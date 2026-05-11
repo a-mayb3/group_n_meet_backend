@@ -22,5 +22,4 @@ reservation = Table(
            onupdate=func.now(),
            ),
     Column("is_cancelled", Boolean, default=False, nullable=False),
-    Column("is_event_cancelled", Boolean, default=False, nullable=False),
 )

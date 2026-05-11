@@ -91,6 +91,47 @@ def read_event(event_id: str, db: Session = Depends(get_db)):
     
     return event
 
+@router.delete("/{event_id}/cancel")
+def cancel_event(
+    event_id: str,
+    request: Request,
+    db: Session = Depends(get_db),
+    ):
+
+    user = utils.get_user_from_jwt(request, db)
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    try:
+        event_id_uuid: UUID = UUID(event_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid event ID format")
+
+    event = db.query(EventSchema).filter(EventSchema.id == event_id_uuid).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    organizerGroup = db.query(OrganizerGroupSchema).filter(OrganizerGroupSchema.id == event.organizer_group_id).first()
+
+    if not organizerGroup:
+        raise HTTPException(status_code=400, detail="Invalid organizer group ID")
+
+    if event not in organizerGroup.events:
+        raise HTTPException(status_code=400, detail="Event does not belong to the organizer group")
+
+    if user not in organizerGroup.members:
+        raise HTTPException(status_code=403, detail="User is not a member of the organizer group")
+
+    db.query(EventSchema).filter(EventSchema.id == event_id_uuid).update(
+        {EventSchema.is_cancelled: True},
+        synchronize_session=False,
+    )
+    db.commit()
+
+    logger.debug(f"Cancelling event {event_id_uuid} by user {user.id}")
+    return {"message": "Event cancelled successfully"}
+
 @router.post("/{event_id}/add_me")
 def add_me_to_event(
     event_id: str,
@@ -117,8 +158,7 @@ def add_me_to_event(
         id=new_id,
         user_id=user.id,
         event_id=event_id_uuid,
-        is_cancelled=False,
-        is_event_cancelled=False,
+        is_cancelled=False
     )
     db.execute(new_rsvp)
     db.commit()
@@ -147,14 +187,15 @@ def remove_me_from_event(
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
 
-    delete_rsvp = reservation.delete().where(
+    cancel_rsvp = reservation.update().where(
         (reservation.c.user_id == user.id) &
         (reservation.c.event_id == event_id_uuid)
-    )
-    db.execute(delete_rsvp)
+    ).values(is_cancelled=True)
+    db.execute(cancel_rsvp)
     db.commit()
     
     logger.debug(f"Removing user {user.id} from event {event_id_uuid}")
+    return {"message": "Event RSVP cancelled successfully"}
 
 @router.post("/")
 def create_event(

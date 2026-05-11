@@ -1,7 +1,7 @@
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import BaseModel, NaiveDatetime
+from pydantic import BaseModel, NaiveDatetime, StrictBool
 
 class EventBase(BaseModel):
 
@@ -12,6 +12,7 @@ class EventBase(BaseModel):
     end_time: Optional[NaiveDatetime] = None
     place: Optional[str] = None
     organizer_group_id: UUID
+    is_cancelled: StrictBool = False
 
 
 class EventSearchParameters(BaseModel):
