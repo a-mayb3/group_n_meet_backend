@@ -17,6 +17,7 @@ from utils import get_user_from_jwt
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
 logger = logging.getLogger(__name__)
 
@@ -44,8 +45,18 @@ def create_organizer_group(
     )
     new_group.members.append(user)
 
-    db.add(new_group)
-    db.commit()
+    # Prevent duplicate group names when possible
+    existing = db.query(OrganizerGroupSchema).filter(OrganizerGroupSchema.name == group.name).first()
+    if existing is not None:
+        raise HTTPException(status_code=409, detail="Organizer group with that name already exists")
+
+    try:
+        db.add(new_group)
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=409, detail="Organizer group with that name already exists")
+
     db.refresh(new_group)
 
     return OrganizerGroupBase.model_validate(
@@ -208,7 +219,19 @@ def update_organizer_group(
     for key, value in group_update.model_dump().items():
         setattr(group, key, value)
 
-    db.commit()
+        # If updating the name, make sure it's not already taken by another group
+    if group_update.name:
+        existing = db.query(OrganizerGroupSchema).filter(OrganizerGroupSchema.name == group_update.name).first()
+        # Only raise if a different group has this name
+        if existing is not None and existing != group:
+            raise HTTPException(status_code=409, detail="Organizer group with that name already exists")
+
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=409, detail="Organizer group with that name already exists")
+
     db.refresh(group)
 
     return OrganizerGroupBase.model_validate(

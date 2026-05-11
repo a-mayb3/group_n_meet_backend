@@ -8,13 +8,13 @@ class OrganizerGroupBase(BaseModel):
 
     id: UUID
     name: str
-    description: str
+    description: Optional[str] = None
     created: PastDatetime
 
 class OrganizerGroupCreate(BaseModel):
 
     name: str
-    description: str
+    description: Optional[str] = None
 
 class OrganizerGroupUpdate(BaseModel):
 
