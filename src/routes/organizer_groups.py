@@ -161,22 +161,21 @@ def delete_organizer_group(id: UUID, request: Request, db: Session = Depends(get
     return {"message": "Organizer group deleted successfully"}
 
 
-@router.delete("/leave")
+@router.delete("/{id}/leave")
 def leave_organizer_group(
-    group_id: UUID, request: Request, db: Session = Depends(get_db)
+    id: UUID, request: Request, db: Session = Depends(get_db)
 ):
     """Leave an organizer group."""
 
-    logger.debug(f"Leaving organizer group {group_id} by {request.client}")
+    logger.debug(f"Leaving organizer group {id} by {request.client}")
 
     user = get_user_from_jwt(request, db)
-
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     group = (
         db.query(OrganizerGroupSchema)
-        .filter(OrganizerGroupSchema.id == group_id)
+        .filter(OrganizerGroupSchema.id == id)
         .first()
     )
 
