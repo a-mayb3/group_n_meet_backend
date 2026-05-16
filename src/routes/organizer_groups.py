@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 
 from uuid import UUID
 
+from models.users import UserBase
 from schemas.organizer_group import OrganizerGroupSchema
 from schemas.event import EventSchema
 
@@ -75,17 +76,27 @@ def get_organizer_group(id: str, request: Request, db: Session = Depends(get_db)
 
     logger.debug(f"Getting organizer group {id} by {request.client}")
 
-    group = db.query(OrganizerGroupSchema).filter(OrganizerGroupSchema.id == id).first()
+    organizer_group: OrganizerGroupSchema = db.query(OrganizerGroupSchema).filter(OrganizerGroupSchema.id == id).first()
 
-    if not group:
+    if not organizer_group:
         raise HTTPException(status_code=404, detail="Organizer group not found")
 
     return OrganizerGroupBase.model_validate(
         {
-            "id": group.id,
-            "name": group.name,
-            "description": group.description,
-            "created": group.created_at,
+            "id": organizer_group.id,
+            "name": organizer_group.name,
+            "description": organizer_group.description,
+            "created": organizer_group.created_at,
+            "members": [
+                UserBase.model_validate({
+                    "id": member.id,
+                    "email_address": member.email,
+                    "display_name": member.display_name,
+                    "user_type": member.user_type,
+                    "created": member.created_at or datetime.now(timezone.utc),
+                })
+                for member in organizer_group.members
+            ]
         }
     )
 

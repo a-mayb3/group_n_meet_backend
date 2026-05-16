@@ -4,11 +4,14 @@ from uuid import UUID
 
 from pydantic import BaseModel, PastDatetime
 
+from models.users import UserBase
+
 class OrganizerGroupBase(BaseModel):
 
     id: UUID
     name: str
     description: Optional[str] = None
+    members:  list[UserBase] = []
     created: PastDatetime
 
 class OrganizerGroupCreate(BaseModel):

@@ -22,7 +22,6 @@ class UserCreate(BaseModel):
     display_name: str
     password: SecretStr
 
-
 class UserUpdate(BaseModel):
     """
     User info sent by the client when updating an existing user.
