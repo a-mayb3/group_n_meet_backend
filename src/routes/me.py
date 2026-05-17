@@ -14,7 +14,7 @@ from models.organizer_groups import OrganizerGroupBase
 from models.rsvps import RSVPBase
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
-from sqlalchemy import select
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 from database import get_db
 
@@ -116,6 +116,23 @@ def delete_my_account(
     if not user:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
+    user_groups = (
+        db.query(OrganizerGroupSchema)
+        .join(
+            organizer_group_members,
+            OrganizerGroupSchema.id == organizer_group_members.c.organizer_group_id,
+        )
+        .filter(organizer_group_members.c.user_id == user.id)
+        .all()
+    )
+
+    for group in user_groups:
+        if len(group.members) <= 1:
+            db.delete(group)
+        else:
+            group.members.remove(user)
+
+    db.execute(delete(reservation).where(reservation.c.user_id == user.id))
     db.delete(user)
     db.commit()
 
