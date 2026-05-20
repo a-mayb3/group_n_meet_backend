@@ -100,6 +100,29 @@ def get_organizer_group(id: str, request: Request, db: Session = Depends(get_db)
         }
     )
 
+@router.post("/{id}/join")
+def join_organizer_group(
+    id: str, request: Request, db: Session = Depends(get_db)
+):
+    """Join an organizer group by its ID."""
+
+    logger.debug(f"Joining organizer group {id} by {request.client}")
+
+    user = get_user_from_jwt(request, db)
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    group = db.query(OrganizerGroupSchema).filter(OrganizerGroupSchema.id == id).first()
+    if not group:
+        raise HTTPException(status_code=404, detail="Organizer group not found")
+
+    if user in group.members:
+        raise HTTPException(status_code=400, detail="You are already a member of this organizer group")
+
+    group.members.append(user)
+    db.commit()
+
+    return {"message": "Joined organizer group successfully"}
 
 @router.get("/{id}/events", response_model=list[EventBase])
 def get_organizer_group_events(
