@@ -26,7 +26,11 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode.update({"exp": expire})
     to_encode.update({"iat": datetime.now(timezone.utc)})
 
-    encoded_jwt = jwt.encode(to_encode, settings.SESSION_SECRET_KEY, algorithm=settings.ALGORITHM)
+    encoded_jwt = jwt.encode(
+        to_encode,
+        settings.SESSION_SECRET_KEY.get_secret_value(),
+        algorithm=settings.ALGORITHM,
+    )
 
     return encoded_jwt
 
@@ -36,7 +40,11 @@ def verify_jwt_token(token: str):
     """
     
     try:
-        payload = jwt.decode(token=token, key=settings.SESSION_SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(
+            token=token,
+            key=settings.SESSION_SECRET_KEY.get_secret_value(),
+            algorithms=[settings.ALGORITHM],
+        )
         user_id = payload.get("sub")
         if user_id is None:
             raise HTTPException(

@@ -14,6 +14,7 @@ dependencies = [
     "pytest",
     "pytest-asyncio",
     "httpx",
+    "google-genai",
     "pydantic-settings>=2.13.1",
 ]
 classifiers = [

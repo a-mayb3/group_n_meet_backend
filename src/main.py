@@ -69,19 +69,29 @@ async def http_exception_handler(request, exc):
     """Custom HTTP exception handler""" 
     
     logger.error(f"HTTP error occurred: {exc.detail}")
+
+    if isinstance(exc.detail, dict):
+        message = exc.detail.get("message", "An error occurred")
+        error_type = exc.detail.get("provider", "http_error")
+        details = exc.detail
+    else:
+        message = exc.detail
+        error_type = "authentication_error" if exc.status_code == 401 else "authorization_error"
+        details = None
     
     return JSONResponse( 
         status_code=exc.status_code, 
         content={ 
             "error": { 
-                "message": exc.detail, 
-                "type": "authentication_error" if exc.status_code == 401 else "authorization_error", 
-                "status_code": exc.status_code 
+                "message": message, 
+                "type": error_type, 
+                "status_code": exc.status_code,
+                **({"details": details} if details is not None else {}),
             } 
         }, 
         headers=exc.headers 
     ) 
-
+    
 @app.exception_handler(RequestValidationError) 
 async def validation_exception_handler(request, exc): 
     """Handle validation errors"""

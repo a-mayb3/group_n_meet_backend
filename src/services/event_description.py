@@ -1,7 +1,8 @@
 import logging
 
-import httpx
 from fastapi import HTTPException
+from google import genai
+from google.genai import errors as genai_errors
 from sqlalchemy.orm import Session
 
 from config import Settings
@@ -9,6 +10,16 @@ from models.events import EventDescriptionGenerateRequest
 from schemas.organizer_group import OrganizerGroupSchema
 
 logger = logging.getLogger(__name__)
+
+
+def _build_gemini_error_detail(exc: genai_errors.APIError) -> dict[str, object]:
+    return {
+        "provider": "gemini",
+        "message": exc.message or "Gemini request failed",
+        "status": exc.status,
+        "status_code": exc.code,
+        "details": exc.details,
+    }
 
 
 def _build_event_description_prompt(
@@ -49,13 +60,23 @@ def generate_event_description(
     db: Session,
 ) -> str:
     settings = Settings()
-    token = settings.OPENAI_API_TOKEN
-
-    if token is None or not token.get_secret_value().strip():
+    api_key = settings.GEMINI_API_KEY
+    gemini_model = settings.GEMINI_MODEL
+    
+    if api_key is None or not api_key.get_secret_value().strip():
         raise HTTPException(
             status_code=503,
-            detail="OpenAI API token is not configured",
+            detail="Gemini API key is not configured",
         )
+
+    ## This *should* be unreachable due to validation in Settings
+    if gemini_model is None or not gemini_model.strip():
+        raise HTTPException(
+            status_code=503,
+            detail="Gemini model is not configured",
+        )
+
+    client = genai.Client(api_key=api_key.get_secret_value())
 
     organizer_group_name = None
     if request.organizer_group_id is not None:
@@ -71,59 +92,40 @@ def generate_event_description(
     prompt = _build_event_description_prompt(request, organizer_group_name)
 
     try:
-        response = httpx.post(
-            "https://api.openai.com/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {token.get_secret_value()}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": "gpt-4o-mini",
-                "temperature": 0.7,
-                "messages": [
-                    {
-                        "role": "system",
-                        "content": (
-                            "You are a helpful assistant that rewrites event descriptions "
-                            "into concise, polished copy."
-                        ),
-                    },
-                    {"role": "user", "content": prompt},
-                ],
-            },
-            timeout=30.0,
+        response = client.models.generate_content(
+            model=gemini_model,
+            contents=(
+                "You are a helpful assistant that rewrites event descriptions "
+                "into concise, polished copy.\n\n"
+                f"{prompt}"
+            ),
         )
-        response.raise_for_status()
-    except httpx.HTTPStatusError as exc:
-        logger.exception("OpenAI request failed: %s", exc)
+    except genai_errors.APIError as exc:
+        logger.exception("Gemini request failed: %s", exc)
+        raise HTTPException(
+            status_code=502,
+            detail=_build_gemini_error_detail(exc),
+        ) from exc
+    except Exception as exc:
+        logger.exception("Gemini request failed: %s", exc)
         raise HTTPException(
             status_code=502,
             detail="Failed to generate event description",
         ) from exc
-    except httpx.RequestError as exc:
-        logger.exception("OpenAI request could not be completed: %s", exc)
-        raise HTTPException(
-            status_code=502,
-            detail="Failed to reach the OpenAI service",
-        ) from exc
-
-    payload = response.json()
 
     try:
-        suggested_description = (
-            payload["choices"][0]["message"]["content"].strip()
-        )
-    except (KeyError, IndexError, AttributeError, TypeError) as exc:
-        logger.exception("Unexpected OpenAI response payload: %s", payload)
+        suggested_description = (response.text or "").strip()
+    except (AttributeError, TypeError) as exc:
+        logger.exception("Unexpected Gemini response payload: %s", response)
         raise HTTPException(
             status_code=502,
-            detail="OpenAI returned an unexpected response",
+            detail="Gemini returned an unexpected response",
         ) from exc
 
     if not suggested_description:
         raise HTTPException(
             status_code=502,
-            detail="OpenAI returned an empty description",
+            detail="Gemini returned an empty description",
         )
 
     return suggested_description

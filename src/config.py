@@ -7,7 +7,8 @@ class Settings(BaseSettings):
   ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
 
   SESSION_SECRET_KEY: SecretStr = Field(default=SecretStr("CHANGE_ME_IMMEDIATELY"))
-  OPENAI_API_TOKEN: SecretStr | None = Field(default=None)
+  GEMINI_API_KEY: SecretStr | None = Field(default=None)
+  GEMINI_MODEL: str = Field(default="gemini-2.5-flash")
 
   POSTGRES_USER: str = Field(default="postgres")
   POSTGRES_PASSWORD: str = Field(default="postgres")
