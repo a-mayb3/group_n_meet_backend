@@ -6,7 +6,7 @@ class Settings(BaseSettings):
   ALGORITHM: str = "HS256"
   ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
 
-  SESSION_SECRET_KEY: SecretStr = Field()
+  SESSION_SECRET_KEY: SecretStr = Field(default=SecretStr("CHANGE_ME_IMMEDIATELY"))
   OPENAI_API_TOKEN: SecretStr | None = Field(default=None)
 
   POSTGRES_USER: str = Field(default="postgres")
