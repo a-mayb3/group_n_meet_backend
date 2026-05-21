@@ -36,8 +36,7 @@ app = FastAPI(
     license_info={
         "name": "AGPL-3.0-or-later",
         "url":"https://www.gnu.org/licenses/agpl-3.0.html"},
-    title="Group&Meet RestAPI",
-    
+    title="Group&Meet RestAPI"
     )
 
 ## Adding middlewares
@@ -51,7 +50,7 @@ app.add_middleware(
 
 app.add_middleware(
     SessionMiddleware,
-    secret_key=settings.SESSION_SECRET_KEY,
+    secret_key=settings.SESSION_SECRET_KEY.get_secret_value(),
 )
 
 ## Including routes

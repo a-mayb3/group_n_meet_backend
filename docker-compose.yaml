@@ -21,6 +21,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=group_n_meet
       - SESSION_SECRET_KEY=${SESSION_SECRET_KEY}
+      - OPENAI_API_TOKEN=${OPENAI_API_TOKEN}
       - BIND_ADDRESS=0.0.0.0
     depends_on:
       - postgres
