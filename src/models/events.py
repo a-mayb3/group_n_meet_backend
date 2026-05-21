@@ -34,6 +34,21 @@ class EventCreate(BaseModel):
     place: Optional[str] = None
     organizer_group_id: UUID
 
+
+class EventDescriptionGenerateRequest(BaseModel):
+
+    existing_description: str
+    event_name: Optional[str] = None
+    start_time: Optional[NaiveDatetime] = None
+    end_time: Optional[NaiveDatetime] = None
+    place: Optional[str] = None
+    organizer_group_id: Optional[UUID] = None
+
+
+class EventDescriptionGenerateResponse(BaseModel):
+
+    suggested_description: str
+
 class EventUpdate(BaseModel):
 
     name: Optional[str] = None

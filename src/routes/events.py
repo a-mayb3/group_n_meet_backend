@@ -1,6 +1,5 @@
 import logging
 from typing import List, Optional
-from urllib import request
 from uuid import UUID, uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Query
@@ -14,7 +13,15 @@ from schemas.organizer_group import OrganizerGroupSchema
 from schemas.event import EventSchema
 from schemas.reservation import reservation
 
-from models.events import EventBase, EventCreate, EventSearchParameters, EventUpdate
+from models.events import (
+    EventBase,
+    EventCreate,
+    EventDescriptionGenerateRequest,
+    EventDescriptionGenerateResponse,
+    EventSearchParameters,
+    EventUpdate,
+)
+from services.event_description import generate_event_description
 
 logger = logging.getLogger(__name__)
 
@@ -225,6 +232,28 @@ def create_event(
 
     logger.debug(f"Creating event {event.name} by user {user.id}")
     return new_event
+
+
+@router.post("/generate-description", response_model=EventDescriptionGenerateResponse)
+def generate_description_for_event(
+    request_body: EventDescriptionGenerateRequest,
+    request: Request,
+    db: Session = Depends(get_db),
+):
+
+    user = utils.get_user_from_jwt(request, db)
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    suggested_description = generate_event_description(request_body, db)
+
+    logger.debug(
+        "Generating event description for user %s and event %s",
+        user.id,
+        request_body.event_name,
+    )
+    return {"suggested_description": suggested_description}
 
 @router.put("/{event_id}")
 def update_event(
