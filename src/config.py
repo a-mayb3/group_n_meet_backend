@@ -18,3 +18,4 @@ class Settings(BaseSettings):
 
   PORT: int = Field(default=8000)
   BIND_ADDRESS: str = Field(default="0.0.0.0")
+  ROOT_PATH: str = Field(default="")

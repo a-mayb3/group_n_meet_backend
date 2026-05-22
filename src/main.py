@@ -36,7 +36,8 @@ app = FastAPI(
     license_info={
         "name": "AGPL-3.0-or-later",
         "url":"https://www.gnu.org/licenses/agpl-3.0.html"},
-    title="Group&Meet RestAPI"
+    title="Group&Meet RestAPI",
+    root_path=settings.ROOT_PATH or ""
     )
 
 ## Adding middlewares
