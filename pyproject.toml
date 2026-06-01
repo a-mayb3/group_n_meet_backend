@@ -1,0 +1,30 @@
+[project]
+name = "gnm_backend"
+version = "0.1dev1"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "alembic",
+    "python-jose",
+    "passlib[bcrypt]",
+    "python-multipart",
+    "pydantic",
+    "pytest",
+    "pytest-asyncio",
+    "httpx",
+    "google-genai",
+    "pydantic-settings>=2.13.1",
+]
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Private :: Do Not Upload",
+    
+    "Operating System :: OS Independent",
+
+    "Programming Language :: Python :: 3",
+    "Framework :: FastAPI",
+]
+[project.scripts]
+gnm-backend = "main:main"
